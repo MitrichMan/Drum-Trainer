@@ -11,7 +11,7 @@ import SwiftUI
 struct Drum_TrainerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MetronomeView()
         }
     }
 }
