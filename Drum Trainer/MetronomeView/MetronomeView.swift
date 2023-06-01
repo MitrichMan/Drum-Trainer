@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MetronomeView: View {
     
-    @ObservedObject var metronome = Metronome()
+    @StateObject var metronome = Metronome()
     
     @State private var tempo: Double = 80
     @State private var size = 4
@@ -22,14 +22,16 @@ struct MetronomeView: View {
             Text(metronome.beat.formatted())
                 .font(.largeTitle)
             
-                Stepper(value: $tempo, in: 40...300) {
-                    Text(tempo.formatted())
-                }
-                .frame(width: 134.0)
+            Stepper(value: $tempo, in: 40...300) {
+                Text(tempo.formatted())
+            }
+            .frame(width: 134.0)
+            
             Stepper(value: $size, in: 2...8) {
                 Text(size.formatted())
             }
             .frame(width: 134.0)
+            
             Button(
                 action: { self.metronome.buttonWasTapped(tempo: tempo)
                     metronome.size = size

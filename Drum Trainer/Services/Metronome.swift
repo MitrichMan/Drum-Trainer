@@ -11,11 +11,10 @@ import Foundation
 class Metronome: ObservableObject {
     let objectWillChange = PassthroughSubject<Metronome, Never>()
     
-    
     var beat = 0
     var buttonTitle = "Start"
     var size = 4
-        
+    
     private var metronome: Timer?
     
     func startMetronome(tempo: Double) {
@@ -29,8 +28,6 @@ class Metronome: ObservableObject {
             userInfo: nil,
             repeats: true
         )
-        
-//        buttonWasTapped()
     }
     
     func buttonWasTapped(tempo: Double) {

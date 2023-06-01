@@ -15,6 +15,9 @@
 		4DC30A612A27716500B34DD4 /* Drum_TrainerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A602A27716500B34DD4 /* Drum_TrainerUITestsLaunchTests.swift */; };
 		4DC30A6F2A27745500B34DD4 /* MetronomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A6E2A27745500B34DD4 /* MetronomeView.swift */; };
 		4DC30A742A2777A100B34DD4 /* Metronome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A732A2777A100B34DD4 /* Metronome.swift */; };
+		4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */; };
+		4DC30A792A28816800B34DD4 /* MetronomeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A782A28816800B34DD4 /* MetronomeSettings.swift */; };
+		4DC30A7B2A2883CD00B34DD4 /* MetronomeViewPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A7A2A2883CD00B34DD4 /* MetronomeViewPrototype.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		4DC30A602A27716500B34DD4 /* Drum_TrainerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drum_TrainerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4DC30A6E2A27745500B34DD4 /* MetronomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeView.swift; sourceTree = "<group>"; };
 		4DC30A732A2777A100B34DD4 /* Metronome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metronome.swift; sourceTree = "<group>"; };
+		4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModel.swift; sourceTree = "<group>"; };
+		4DC30A782A28816800B34DD4 /* MetronomeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeSettings.swift; sourceTree = "<group>"; };
+		4DC30A7A2A2883CD00B34DD4 /* MetronomeViewPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewPrototype.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 				4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */,
 				4DC30A6D2A27742B00B34DD4 /* MetronomeView */,
 				4DC30A702A27774100B34DD4 /* Services */,
+				4DC30A772A28813E00B34DD4 /* Models */,
 				4DC30A472A27716500B34DD4 /* Assets.xcassets */,
 				4DC30A492A27716500B34DD4 /* Preview Content */,
 			);
@@ -134,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				4DC30A6E2A27745500B34DD4 /* MetronomeView.swift */,
+				4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */,
+				4DC30A7A2A2883CD00B34DD4 /* MetronomeViewPrototype.swift */,
 			);
 			path = MetronomeView;
 			sourceTree = "<group>";
@@ -144,6 +153,14 @@
 				4DC30A732A2777A100B34DD4 /* Metronome.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		4DC30A772A28813E00B34DD4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4DC30A782A28816800B34DD4 /* MetronomeSettings.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,8 +294,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DC30A742A2777A100B34DD4 /* Metronome.swift in Sources */,
+				4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */,
 				4DC30A6F2A27745500B34DD4 /* MetronomeView.swift in Sources */,
 				4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */,
+				4DC30A7B2A2883CD00B34DD4 /* MetronomeViewPrototype.swift in Sources */,
+				4DC30A792A28816800B34DD4 /* MetronomeSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
