@@ -9,21 +9,23 @@ import SwiftUI
 
 struct MetronomeViewPrototype: View {
     
-    @State private var tempo = "40"
+    @State private var tempo = "0"
     @State private var rotation: Angle = Angle(degrees: 0)
     
     @State private var currentAngle = Angle.zero
     @GestureState private var twistAngle = Angle.zero
     
+    let backgroundColor = UIColor(named: "BackgroundColor") ?? .systemGray5
+    
     var body: some View {
         
         ZStack {
-#warning("Get rid of force unwrapping")
-            Color(UIColor(named: "BackgroundColor")!)
+            Color(backgroundColor)
                 .ignoresSafeArea()
             
             tempoControlDoughnut(
                 bigCircleDiameter: 350,
+                backgroundColor: Color(backgroundColor),
                 tempo: $tempo,
                 rotation: $rotation
             )
@@ -31,7 +33,7 @@ struct MetronomeViewPrototype: View {
             Text(tempo)
                 .frame(width: 350, height: 350)
                 .font(.custom("Arial Rounded MT Bold", size: 70))
-                .foregroundColor(.white)
+//                .foregroundColor(.white)
                 .multilineTextAlignment(.center)
         }
     }
@@ -46,12 +48,14 @@ struct MetronomeViewPrototype_Previews: PreviewProvider {
 struct tempoControlDoughnut: View {
     
     let bigCircleDiameter: CGFloat
+    let backgroundColor: Color
     
     @Binding var tempo: String
     @Binding var rotation: Angle
     
+    
     private var centerHoleDiameter: CGFloat {
-        (bigCircleDiameter / 3) * 1.5
+        (bigCircleDiameter / 3) * 1.3
     }
     
     var body: some View {
@@ -64,10 +68,12 @@ struct tempoControlDoughnut: View {
             
             
             Circle()
-                .foregroundColor(Color(UIColor(named: "BackgroundColor")!))
-                .blur(radius: 1.5)
+                .foregroundStyle(
+                        backgroundColor.shadow(
+                            .inner(color: .white, radius: 3)
+                        )
+                    )
                 .frame(width: centerHoleDiameter)
-            
         }
     }
 }
@@ -83,26 +89,29 @@ struct ControlCircle: View {
     var body: some View {
         Circle()
             .foregroundColor(.white)
-            .shadow(color: .white, radius: 5)
+            .shadow(color: .white, radius: 3)
             .frame(width: bigCircleDiameter)
-            .rotationEffect(rotation, anchor: .center)
+            .rotationEffect(rotation, anchor: .center) // visual effect for rotation
             .gesture(DragGesture()
                 .onChanged{ value in
                     if let previousRotation = self.previousRotation {
-                        let deltaY = value.location.y - (bigCircleDiameter / 2)
                         let deltaX = value.location.x - (bigCircleDiameter / 2)
+                        let deltaY = value.location.y - (bigCircleDiameter / 2)
                         let fingerAngle = Angle(radians: Double(atan2(deltaY, deltaX)))
-                        
                         let angle = fingerAngle - previousRotation
+                        
                         rotation += angle
-#warning("Make tempo counting method")
-                        tempo = lround(rotation.degrees).formatted()
                         self.previousRotation = fingerAngle
+                        
+    #warning("Make tempo counting method")
+                        tempo = lround(rotation.degrees).formatted()
+//                        tempo = lround(temp).formatted()
                         
                     } else {
                         let deltaY = value.location.y - (bigCircleDiameter / 2)
                         let deltaX = value.location.x - (bigCircleDiameter / 2)
                         let fingerAngle = Angle(radians: Double(atan2(deltaY, deltaX)))
+                        
                         previousRotation = fingerAngle
                     }
                 }
