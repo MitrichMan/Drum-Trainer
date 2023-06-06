@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MetronomeViewPrototype: View {
     
-    @State private var tempo = "0"
+    @State private var tempo = 40
     @State private var rotation: Angle = Angle(degrees: 0)
     
     @State private var currentAngle = Angle.zero
@@ -30,10 +30,10 @@ struct MetronomeViewPrototype: View {
                 rotation: $rotation
             )
             
-            Text(tempo)
+            Text(tempo.formatted())
                 .frame(width: 350, height: 350)
                 .font(.custom("Arial Rounded MT Bold", size: 70))
-//                .foregroundColor(.white)
+                .foregroundColor(.white)
                 .multilineTextAlignment(.center)
         }
     }
@@ -50,7 +50,7 @@ struct tempoControlDoughnut: View {
     let bigCircleDiameter: CGFloat
     let backgroundColor: Color
     
-    @Binding var tempo: String
+    @Binding var tempo: Int
     @Binding var rotation: Angle
     
     
@@ -82,41 +82,43 @@ struct ControlCircle: View {
     
     let bigCircleDiameter: CGFloat
     
-    @Binding var tempo: String
+    @Binding var tempo: Int
     @Binding var rotation: Angle
     @State private var previousRotation: Angle?
+    
+    @State private var lastAngle: CGFloat = 0
+    @State private var counter: CGFloat = 0
     
     var body: some View {
         Circle()
             .foregroundColor(.white)
             .shadow(color: .white, radius: 3)
             .frame(width: bigCircleDiameter)
-            .rotationEffect(rotation, anchor: .center) // visual effect for rotation
             .gesture(DragGesture()
                 .onChanged{ value in
-                    if let previousRotation = self.previousRotation {
-                        let deltaX = value.location.x - (bigCircleDiameter / 2)
-                        let deltaY = value.location.y - (bigCircleDiameter / 2)
-                        let fingerAngle = Angle(radians: Double(atan2(deltaY, deltaX)))
-                        let angle = fingerAngle - previousRotation
-                        
-                        rotation += angle
-                        self.previousRotation = fingerAngle
-                        
-    #warning("Make tempo counting method")
-                        tempo = lround(rotation.degrees).formatted()
-//                        tempo = lround(temp).formatted()
-                        
-                    } else {
-                        let deltaY = value.location.y - (bigCircleDiameter / 2)
-                        let deltaX = value.location.x - (bigCircleDiameter / 2)
-                        let fingerAngle = Angle(radians: Double(atan2(deltaY, deltaX)))
-                        
-                        previousRotation = fingerAngle
+                    let deltaX = value.location.x - bigCircleDiameter / 2
+                    let deltaY = bigCircleDiameter / 2 - value.location.y
+                    var angle = atan2(deltaX, deltaY) * 180 / .pi
+                    if (angle < 0) { angle += 360 }
+
+                    let theta = self.lastAngle - angle
+                    self.lastAngle = angle
+
+                    if (abs(theta) < 20) {
+                        self.counter += theta
                     }
+                    
+                    if self.counter > 20 && tempo > 40 {
+                        tempo -= 1
+                    } else if self.counter < -20 && tempo < 400{
+                        tempo += 1
+                    }
+                   
+                    if (abs(self.counter) > 20) { self.counter = 0 }
+                    
                 }
-                .onEnded{ _ in
-                    previousRotation = nil
-                })
+                             .onEnded { v in
+                                 self.counter = 0
+                             })
     }
 }
