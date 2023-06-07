@@ -6,14 +6,19 @@
 //
 
 import Combine
-import Foundation
+import AVFoundation
+import UIKit
 
 class Metronome: ObservableObject {
     let objectWillChange = PassthroughSubject<Metronome, Never>()
     
+    var player: AVAudioPlayer?
+    
     var beat = 0
-    var buttonTitle = "Start"
     var size = 4
+    var tempo = 80.0
+    
+    var buttonTitle = "Start"
     
     private var metronome: Timer?
     
@@ -24,7 +29,7 @@ class Metronome: ObservableObject {
         metronome = Timer.scheduledTimer(
             timeInterval: interval,
             target: self,
-            selector: #selector(updateCurrentBeat),
+            selector: #selector(metronomeActions),
             userInfo: nil,
             repeats: true
         )
@@ -33,8 +38,8 @@ class Metronome: ObservableObject {
     func buttonWasTapped(tempo: Double) {
         if buttonTitle == "Start" {
             buttonTitle = "Stop"
-            beat = 1
             startMetronome(tempo: tempo)
+            metronomeActions()
         } else {
             buttonTitle = "Start"
             killMetronome()
@@ -44,13 +49,15 @@ class Metronome: ObservableObject {
         objectWillChange.send(self)
     }
     
-    @objc private func updateCurrentBeat() {
+    @objc private func metronomeActions() {
+        playSound()
+        
         if beat == size {
             beat = 1
         }  else {
             beat += 1
         }
-        
+
         objectWillChange.send(self)
     }
     
@@ -58,6 +65,16 @@ class Metronome: ObservableObject {
         metronome?.invalidate()
         metronome = nil
     }
+    func playSound() {
+        guard let url = NSDataAsset(name: "MetronomeBeep")?.data else { return }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            player = try AVAudioPlayer(data: url)
+            guard let player = player else { return }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
 }
-
-
