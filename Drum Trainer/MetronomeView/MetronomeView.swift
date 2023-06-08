@@ -54,7 +54,6 @@ struct MetronomeView: View {
                 }
                 
                 HStack {
-                    
                     Picker("Beat", selection: $size) {
                         Text("2/4").tag(Size.two)
                         Text("3/4").tag(Size.three)
