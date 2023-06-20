@@ -16,9 +16,14 @@ class Metronome: ObservableObject {
     
     var beat = 0
     var size = 4
-    var tempo = 80.0
+    var tempo = 80.0 {
+        didSet {
+            killMetronome()
+            startMetronome(tempo: tempo)
+        }
+    }
     
-    var buttonTitle = "Start"
+    private var isPlaying = false
     
     private var metronome: Timer?
     
@@ -36,12 +41,12 @@ class Metronome: ObservableObject {
     }
     
     func buttonWasTapped(tempo: Double) {
-        if buttonTitle == "Start" {
-            buttonTitle = "Stop"
+        if !isPlaying {
+            isPlaying.toggle()
             startMetronome(tempo: tempo)
             metronomeActions()
         } else {
-            buttonTitle = "Start"
+            isPlaying.toggle()
             killMetronome()
             beat = 0
         }
@@ -52,19 +57,24 @@ class Metronome: ObservableObject {
     @objc private func metronomeActions() {
         playSound()
         
-        if beat == size {
+        if beat <= size {
+            if beat == size {
+                beat = 1
+            }  else {
+                beat += 1
+            }
+        } else {
             beat = 1
-        }  else {
-            beat += 1
         }
 
         objectWillChange.send(self)
     }
     
-    private func killMetronome() {
+     func killMetronome() {
         metronome?.invalidate()
         metronome = nil
     }
+    
     func playSound() {
         guard let url = NSDataAsset(name: "MetronomeBeep")?.data else { return }
         do {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MetronomeViewPrototype: View {
+struct ControlWheelView: View {
     
     @Binding var tempo: Double 
     
@@ -23,7 +23,7 @@ struct MetronomeViewPrototype: View {
             Color(backgroundColor)
                 .ignoresSafeArea()
             
-            TempoControlDoughnut(
+            TempoControlWheel(
                 bigCircleDiameter: bigCircleDiameter,
                 backgroundColor: Color(backgroundColor),
                 tempo: $tempo
@@ -42,11 +42,11 @@ struct MetronomeViewPrototype: View {
     }
 }
 
-struct MetronomeViewPrototype_Previews: PreviewProvider {
+struct ControlWheelView_Previews: PreviewProvider {
     static var plug : () -> Void = {  }
     
     static var previews: some View {
-        MetronomeViewPrototype(
+        ControlWheelView(
             tempo: .constant(80),
             bigCircleDiameter: 350,
             startMetronome: plug
@@ -54,7 +54,7 @@ struct MetronomeViewPrototype_Previews: PreviewProvider {
     }
 }
 
-struct TempoControlDoughnut: View {
+struct TempoControlWheel: View {
     
     let bigCircleDiameter: CGFloat
     let backgroundColor: Color
@@ -64,7 +64,7 @@ struct TempoControlDoughnut: View {
     private var centerHoleDiameter: CGFloat {
         (bigCircleDiameter / 3) * 1.3
     }
-    
+
     var body: some View {
         ZStack {
             ControlCircle(
@@ -73,10 +73,11 @@ struct TempoControlDoughnut: View {
             )
             
             
+#warning("deal with shadow")
             Circle()
                 .foregroundStyle(
                     backgroundColor.shadow(
-                        .inner(color: .white, radius: 0)
+                        .inner(color: .gray, radius: 0)
                     )
                 )
                 .frame(width: centerHoleDiameter)
@@ -93,9 +94,10 @@ struct ControlCircle: View {
     @State private var counter: CGFloat = 0
     
     var body: some View {
+#warning("deal with shadow")
         Circle()
             .foregroundColor(.white)
-//            .shadow(color: .white, radius: 3)
+//            .shadow(color: .gray, radius: 1)
             .frame(width: bigCircleDiameter)
             .gesture(DragGesture()
                 .onChanged{ value in

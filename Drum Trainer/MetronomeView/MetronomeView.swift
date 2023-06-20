@@ -6,22 +6,19 @@
 //
 
 import SwiftUI
+enum Size: Int {
+    case two = 2
+    case three = 3
+    case four = 4
+    case five = 5
+}
 
 struct MetronomeView: View {
-    
-    enum Size: Int {
-        case two = 2
-        case three = 3
-        case four = 4
-        case five = 5
-    }
-    
     @StateObject var metronome = Metronome()
     
-    @State private var tempo = 80.0
-    
+    @State private var tempo = 80.0 
     @State private var size: Size = .four
-        
+            
     private let backgroundColor = UIColor(named: "BackgroundColor") ?? .systemGray5
     
     private let bigCircleDiameter: CGFloat = 350
@@ -32,39 +29,14 @@ struct MetronomeView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Spacer(minLength: 30)
-
-                ZStack {
-                    Rectangle()
-                        .frame(width: 350, height: 200)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                    HStack {
-                        ForEach((1...size.rawValue), id: \.self) { index in
-                            Circle()
-                                .tag(index)
-                                .frame(width: 40)
-                                .foregroundColor(changeBeatCircleColor(
-                                    beat: metronome.beat,
-                                    index: index
-                                ))
-                                .padding(10)
-                        }
-                    }
-                }
+                Spacer(minLength: 20)
+                
+                BeatLightsView(size: $size, beat: metronome.beat)
+                    .padding(.bottom)
+                
                 
                 HStack {
-                    Picker("Beat", selection: $size) {
-                        Text("2/4").tag(Size.two)
-                        Text("3/4").tag(Size.three)
-                        Text("4/4").tag(Size.four)
-                        Text("5/4").tag(Size.five)
-                    }
-                    .pickerStyle(.wheel)
-                    .frame(width: 100, height: 100)
-                    .background(.white)
-                    .cornerRadius(20)
-                    .padding(.leading, 20)
+                    SizePickerView(size: $size, metronome: metronome)
                     
                     Spacer()
                     
@@ -74,11 +46,14 @@ struct MetronomeView: View {
                     Spacer(minLength: 188)
                 }
                 
-                MetronomeViewPrototype(
+                ControlWheelView(
                     tempo: $tempo,
                     bigCircleDiameter: bigCircleDiameter,
                     startMetronome: startButtonWasTapped
                 )
+                .onChange(of: tempo) { newValue in
+                    metronome.tempo = tempo
+                }
                 
                 Spacer(minLength: 50)
             }
@@ -89,21 +64,34 @@ struct MetronomeView: View {
         metronome.buttonWasTapped(tempo: tempo)
         metronome.size = size.rawValue
     }
-    
-    private func changeBeatCircleColor(beat: Int, index: Int) -> Color {
-        let color: Color
-        
-        if beat == index {
-            color = .red
-        } else {
-            color = .gray
-        }
-        return color
-    }
 }
 
 struct MetronomeView_Previews: PreviewProvider {
     static var previews: some View {
         MetronomeView()
+    }
+}
+
+struct SizePickerView: View {
+    
+    @Binding var size: Size
+    
+    var metronome: Metronome
+    
+    var body: some View {
+        Picker("Beat", selection: $size) {
+            Text("2/4").tag(Size.two)
+            Text("3/4").tag(Size.three)
+            Text("4/4").tag(Size.four)
+            Text("5/4").tag(Size.five)
+        }
+        .pickerStyle(.wheel)
+        .frame(width: 100, height: 100)
+        .background(.white)
+        .cornerRadius(20)
+        .padding(.leading, 20)
+        .onChange(of: size) { newValue in
+            metronome.size = size.rawValue
+        }
     }
 }
