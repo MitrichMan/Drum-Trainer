@@ -18,8 +18,10 @@ class Metronome: ObservableObject {
     var size = 4
     var tempo = 80.0 {
         didSet {
-            killMetronome()
-            startMetronome(tempo: tempo)
+            if player?.isPlaying == true {
+                killMetronome()
+                startMetronome(tempo: tempo)
+            }
         }
     }
     

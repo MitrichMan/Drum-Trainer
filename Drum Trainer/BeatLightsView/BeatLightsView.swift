@@ -12,8 +12,6 @@ struct BeatLightsView: View {
     
     @State private var selectedBeats: [Int: BeatSelection] = [1: .accent]
     
-//    @State var circleDiameter = 40.0
-    
     let beat: Int
     
     var body: some View {
@@ -37,11 +35,9 @@ struct BeatLightsView: View {
                             .padding(10)
                             .onTapGesture {
                                 selectBeats(from: index)
-//                                setUpCircleAppearance(index: index)
                             }
                             .onAppear {
                                 setUpBeatSelection()
-//                                setUpCircleAppearance(index: index)
                             }
                     }
                 }
@@ -113,17 +109,17 @@ struct BeatLightsView_Previews: PreviewProvider {
 
 struct AccentNimbusView: View {
     let beatSelection: BeatSelection
-        
+    
     var body: some View {
-            ZStack {
-                Circle()
-                    .foregroundColor(Color("BackgroundColor"))
-                    .frame(width: 52)
-                Circle()
-                    .foregroundColor(.white)
-                    .frame(width: 46)
-            }
-            .opacity(setUpOpacity())
+        ZStack {
+            Circle()
+                .foregroundColor(Color("BackgroundColor"))
+                .frame(width: 52)
+            Circle()
+                .foregroundColor(.white)
+                .frame(width: 46)
+        }
+        .opacity(setUpOpacity())
     }
     
     private func setUpOpacity() -> Double {

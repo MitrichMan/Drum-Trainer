@@ -14,13 +14,6 @@ enum Size: Int {
     case five = 5
 }
 
-enum Subdivision {
-    case second
-    case fourth
-    case eighth
-    case sixteenth
-}
-
 enum BeatSelection {
     case accent
     case weak
@@ -50,7 +43,6 @@ struct MetronomeView: View {
 
                 HStack {
                     SizePickerView(size: $size, metronome: metronome)
-                        .padding(.leading, 50)
 
                     Spacer()
                     
@@ -93,46 +85,19 @@ struct SizePickerView: View {
     var metronome: Metronome
 
     var body: some View {
-        VStack {
-            Picker("Beat", selection: $size) {
-                Text("2").tag(Size.two)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("3").tag(Size.three)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("4").tag(Size.four)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("5").tag(Size.five)
-                    .rotationEffect(Angle(degrees: 90))
-            }
-            .pickerStyle(.wheel)
-            .frame(width: 30, height: 30)
-//            .background(.white)
-            .cornerRadius(20)
-//            .padding(.leading, 20)
-            .onChange(of: size) { newValue in
-                metronome.size = size.rawValue
-            }
-        .rotationEffect(Angle(degrees: -90))
-
-            Picker("Beat", selection: $size) {
-                Text("2").tag(Subdivision.second)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("4").tag(Subdivision.fourth)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("8").tag(Subdivision.eighth)
-                    .rotationEffect(Angle(degrees: 90))
-                Text("16").tag(Subdivision.sixteenth)
-                    .rotationEffect(Angle(degrees: 90))
-            }
-            .pickerStyle(.wheel)
-            .frame(width: 30, height: 30)
-//            .background(.white)
-            .cornerRadius(20)
-//            .padding(.leading, 20)
-            .onChange(of: size) { newValue in
-                metronome.size = size.rawValue
-            }
-        .rotationEffect(Angle(degrees: -90))
+        Picker("Beat", selection: $size) {
+            Text("2/4").tag(Size.two)
+            Text("3/4").tag(Size.three)
+            Text("4/4").tag(Size.four)
+            Text("5/4").tag(Size.five)
+        }
+        .pickerStyle(.wheel)
+        .frame(width: 100, height: 100)
+        .background(.white)
+        .cornerRadius(20)
+        .padding(.leading, 20)
+        .onChange(of: size) { newValue in
+            metronome.size = size.rawValue
         }
     }
 }
