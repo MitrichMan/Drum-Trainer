@@ -8,9 +8,18 @@
 import SwiftUI
 
 struct BeatLightsView: View {
-    @Binding var size: Size
-    
+    @Binding var size: Size {
+        didSet {
+            getNumberOfRows()
+            getNumberOfCirclesInRow()
+        }
+    }
+        
     @State private var selectedBeats: [Int: BeatSelection] = [1: .accent]
+    
+    @State var numberOfRows = 1
+    @State var numberOfCirclesInFirstRow = 4
+    @State var numberOfCirclesInSecondRow = 0
     
     let beat: Int
     
@@ -20,27 +29,59 @@ struct BeatLightsView: View {
                 .frame(width: 350, height: 200)
                 .foregroundColor(.white)
                 .cornerRadius(30)
-            HStack {
-                ForEach((1...size.rawValue), id: \.self) { index in
-                    ZStack {
-                        AccentNimbusView(beatSelection: selectedBeats[index] ?? .weak)
+            VStack {
+                
+                ForEach((1...numberOfRows), id: \.self) { rowIndex in
+                    HStack {
                         
-                        Circle()
-                            .tag(index)
-                            .frame(width: setUpCircleAppearance(index: index))
-                            .foregroundColor(playingBeatCircleColorSetUp(
-                                beat: beat,
-                                index: index
-                            ))
-                            .padding(10)
-                            .onTapGesture {
-                                selectBeats(from: index)
+                        ForEach((getNumberOfElements(rowIndex: rowIndex)), id: \.self) { index in
+                            ZStack {
+                                
+                                AccentNimbusView(
+                                    beatSelection: selectedBeats[
+                                        getIndexForRow(
+                                        rowIndex: rowIndex,
+                                        index: index
+                                    )
+                                    ] ?? .weak
+                                )
+                                
+                                Circle()
+                                    .tag(getIndexForRow(
+                                        rowIndex: rowIndex,
+                                        index: index
+                                    ))
+                                    .frame(width: setUpCircleAppearance(
+                                        index: getIndexForRow(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    ))
+                                    .foregroundColor(playingBeatCircleColorSetUp(
+                                        beat: beat,
+                                        index: getIndexForRow(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    ))
+                                    .padding(10)
+                                    .onTapGesture {
+                                        selectBeats(from: getIndexForRow(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        ))
+                                    }
+                                    .onAppear {
+                                        setUpBeatSelection()
+                                    }
                             }
-                            .onAppear {
-                                setUpBeatSelection()
-                            }
+                        }
                     }
                 }
+            }
+            .onAppear {
+                getNumberOfRows()
+                getNumberOfCirclesInRow()
             }
         }
     }
@@ -99,11 +140,56 @@ struct BeatLightsView: View {
             selectedBeats[index] = .weak
         }
     }
+    
+    private func getNumberOfRows() {
+        if size.rawValue > 4 {
+            numberOfRows = 2
+        } else {
+            numberOfRows = 1
+        }
+    }
+    
+    private func getNumberOfCirclesInRow() {
+        if size.rawValue > 4 {
+            if size.rawValue % 2 == 0 {
+                numberOfCirclesInFirstRow = size.rawValue / 2
+                numberOfCirclesInSecondRow = size.rawValue / 2
+            } else {
+                numberOfCirclesInFirstRow = (size.rawValue - 1) / 2 + 1
+                numberOfCirclesInSecondRow = (size.rawValue - 1) / 2
+            }
+        } else {
+            numberOfCirclesInFirstRow = size.rawValue
+        }
+    }
+    
+    private func getNumberOfElements(rowIndex: Int) -> ClosedRange<Int> {
+        let numberOfElements: ClosedRange<Int>
+        
+        if rowIndex == 1 {
+            numberOfElements = 1...numberOfCirclesInFirstRow
+        } else {
+            numberOfElements = 1...numberOfCirclesInSecondRow
+        }
+        return numberOfElements
+    }
+    
+    private func getIndexForRow(rowIndex: Int, index: Int) -> Int {
+        let indexOfElement: Int
+        
+        if rowIndex == 1 {
+            indexOfElement = index
+        } else {
+            indexOfElement = index + numberOfCirclesInFirstRow
+        }
+        
+       return indexOfElement
+    }
 }
 
 struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
-        BeatLightsView(size: .constant(Size.four), beat: 3)
+        BeatLightsView(size: .constant(Size.five), beat: 3)
     }
 }
 
