@@ -34,7 +34,7 @@ struct BeatLightsView: View {
                 ForEach((1...numberOfRows), id: \.self) { rowIndex in
                     HStack {
                         
-                        ForEach((getNumberOfElements(rowIndex: rowIndex)), id: \.self) { index in
+                        ForEach((1...getNumberOfElements(rowIndex: rowIndex)), id: \.self) { index in
                             ZStack {
                                 
                                 AccentNimbusView(
@@ -79,10 +79,10 @@ struct BeatLightsView: View {
                     }
                 }
             }
-            .onAppear {
-                getNumberOfRows()
-                getNumberOfCirclesInRow()
-            }
+        }
+        .onChange(of: size) { newValue in
+            getNumberOfRows()
+            getNumberOfCirclesInRow()
         }
     }
     
@@ -163,13 +163,13 @@ struct BeatLightsView: View {
         }
     }
     
-    private func getNumberOfElements(rowIndex: Int) -> ClosedRange<Int> {
-        let numberOfElements: ClosedRange<Int>
+    private func getNumberOfElements(rowIndex: Int) -> Int {
+        let numberOfElements: Int
         
         if rowIndex == 1 {
-            numberOfElements = 1...numberOfCirclesInFirstRow
+            numberOfElements = numberOfCirclesInFirstRow
         } else {
-            numberOfElements = 1...numberOfCirclesInSecondRow
+            numberOfElements = numberOfCirclesInSecondRow
         }
         return numberOfElements
     }
