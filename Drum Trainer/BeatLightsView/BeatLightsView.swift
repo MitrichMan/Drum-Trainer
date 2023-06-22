@@ -8,81 +8,83 @@
 import SwiftUI
 
 struct BeatLightsView: View {
-    @Binding var size: Size {
-        didSet {
-            getNumberOfRows()
-            getNumberOfCirclesInRow()
-        }
-    }
-        
+    @Binding var size: Size
+    
     @State private var selectedBeats: [Int: BeatSelection] = [1: .accent]
     
-    @State var numberOfRows = 1
-    @State var numberOfCirclesInFirstRow = 4
-    @State var numberOfCirclesInSecondRow = 0
+    @State private var numberOfRows = 1
+    @State private var numberOfCirclesInFirstRow = 4
+    @State private var numberOfCirclesInSecondRow = 0
     
     let beat: Int
     
     var body: some View {
+        
         ZStack {
-            Rectangle()
+            RoundedRectangle(cornerRadius: 30)
                 .frame(width: 350, height: 200)
                 .foregroundColor(.white)
-                .cornerRadius(30)
+            
             VStack {
-                
                 ForEach((1...numberOfRows), id: \.self) { rowIndex in
+                    
                     HStack {
-                        
                         ForEach((1...getNumberOfElements(rowIndex: rowIndex)), id: \.self) { index in
+                            
                             ZStack {
-                                
                                 AccentNimbusView(
                                     beatSelection: selectedBeats[
-                                        getIndexForRow(
-                                        rowIndex: rowIndex,
-                                        index: index
+                                        getIndexForElement(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    ] ?? .weak,
+                                    color: playingBeatCircleColorSetUp(
+                                        beat: beat,
+                                        index: getIndexForElement(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
                                     )
-                                    ] ?? .weak
                                 )
                                 
-                                Circle()
-                                    .tag(getIndexForRow(
+                                BeatCircle(
+                                    playingBeatCircleColor: playingBeatCircleColorSetUp(
+                                        beat: beat,
+                                        index: getIndexForElement(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    ),
+                                    circleDiameter: setUpCircleAppearance(
+                                        index: getIndexForElement(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    )
+                                )
+                                .padding(10)
+                                .onTapGesture {
+                                    selectBeats(from: getIndexForElement(
                                         rowIndex: rowIndex,
                                         index: index
                                     ))
-                                    .frame(width: setUpCircleAppearance(
-                                        index: getIndexForRow(
-                                            rowIndex: rowIndex,
-                                            index: index
-                                        )
-                                    ))
-                                    .foregroundColor(playingBeatCircleColorSetUp(
-                                        beat: beat,
-                                        index: getIndexForRow(
-                                            rowIndex: rowIndex,
-                                            index: index
-                                        )
-                                    ))
-                                    .padding(10)
-                                    .onTapGesture {
-                                        selectBeats(from: getIndexForRow(
-                                            rowIndex: rowIndex,
-                                            index: index
-                                        ))
-                                    }
-                                    .onAppear {
-                                        setUpBeatSelection()
-                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        .onChange(of: size) { newValue in
+        .onAppear {
+            setUpBeatSelection()
+        }
+        
+        .onChange(of: size) { _ in
             getNumberOfRows()
             getNumberOfCirclesInRow()
+            deInitUnusedBeats()
+            setUpBeatSelection()
         }
     }
     
@@ -95,10 +97,8 @@ struct BeatLightsView: View {
                 color = .green
             case .weak:
                 color = .red
-            case .ghost:
-                color = .yellow
             default:
-                color = Color("BackgroundColor")
+                color = .yellow
             }
         } else {
             color = Color("BackgroundColor")
@@ -109,25 +109,21 @@ struct BeatLightsView: View {
     
     private func setUpBeatSelection() {
         for beat in 2...size.rawValue {
-            selectedBeats[beat] = .weak
+            if selectedBeats[beat] == nil {
+                selectedBeats[beat] = .weak
+            }
+        }
+    }
+    
+    private func deInitUnusedBeats() {
+        if selectedBeats.count > size.rawValue {
+            selectedBeats[size.rawValue + 1] = nil
         }
     }
     
     private func setUpCircleAppearance(index: Int) -> Double {
-        let circleDiameter: Double
-        
-        switch selectedBeats[index] {
-        case .accent:
-            circleDiameter = 40
-        case .weak:
-            circleDiameter = 40
-        case .ghost:
-            circleDiameter = 16
-        default:
-            circleDiameter = 40
-        }
-        
-        return circleDiameter
+        let diameterOfCircle = selectedBeats[index] == .ghost ? 16.0 : 40.0
+        return diameterOfCircle
     }
     
     private func selectBeats(from index: Int) {
@@ -142,11 +138,7 @@ struct BeatLightsView: View {
     }
     
     private func getNumberOfRows() {
-        if size.rawValue > 4 {
-            numberOfRows = 2
-        } else {
-            numberOfRows = 1
-        }
+        numberOfRows = size.rawValue > 4 ? 2 : 1
     }
     
     private func getNumberOfCirclesInRow() {
@@ -174,7 +166,7 @@ struct BeatLightsView: View {
         return numberOfElements
     }
     
-    private func getIndexForRow(rowIndex: Int, index: Int) -> Int {
+    private func getIndexForElement(rowIndex: Int, index: Int) -> Int {
         let indexOfElement: Int
         
         if rowIndex == 1 {
@@ -183,7 +175,7 @@ struct BeatLightsView: View {
             indexOfElement = index + numberOfCirclesInFirstRow
         }
         
-       return indexOfElement
+        return indexOfElement
     }
 }
 
@@ -195,11 +187,12 @@ struct BeatLightsView_Previews: PreviewProvider {
 
 struct AccentNimbusView: View {
     let beatSelection: BeatSelection
+    let color: Color
     
     var body: some View {
         ZStack {
             Circle()
-                .foregroundColor(Color("BackgroundColor"))
+                .foregroundColor(color)
                 .frame(width: 52)
             Circle()
                 .foregroundColor(.white)
@@ -216,5 +209,17 @@ struct AccentNimbusView: View {
             opacity = 0.0
         }
         return opacity
+    }
+}
+
+struct BeatCircle: View {
+    let playingBeatCircleColor: Color
+
+    let circleDiameter: Double
+    
+    var body: some View {
+        Circle()
+            .frame(width: circleDiameter)
+            .foregroundColor(playingBeatCircleColor)
     }
 }

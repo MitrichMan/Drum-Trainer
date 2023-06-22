@@ -12,6 +12,9 @@ enum Size: Int {
     case three = 3
     case four = 4
     case five = 5
+    case six = 6
+    case seven = 7
+    case eight = 8
 }
 
 enum BeatSelection {
@@ -90,6 +93,9 @@ struct SizePickerView: View {
             Text("3/4").tag(Size.three)
             Text("4/4").tag(Size.four)
             Text("5/4").tag(Size.five)
+            Text("6/4").tag(Size.six)
+            Text("7/4").tag(Size.seven)
+            Text("8/4").tag(Size.eight)
         }
         .pickerStyle(.wheel)
         .frame(width: 100, height: 100)
