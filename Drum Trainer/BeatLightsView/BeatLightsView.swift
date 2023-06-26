@@ -65,10 +65,12 @@ struct BeatLightsView: View {
                                 )
                                 .padding(10)
                                 .onTapGesture {
-                                    selectBeats(from: getIndexForElement(
-                                        rowIndex: rowIndex,
-                                        index: index
-                                    ))
+                                    selectBeats(
+                                        from: getIndexForElement(
+                                            rowIndex: rowIndex,
+                                            index: index
+                                        )
+                                    )
                                 }
                             }
                         }
@@ -79,7 +81,6 @@ struct BeatLightsView: View {
         .onAppear {
             setUpBeatSelection()
         }
-        
         .onChange(of: size) { _ in
             getNumberOfRows()
             getNumberOfCirclesInRow()

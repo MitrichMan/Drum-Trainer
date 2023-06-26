@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Size: Int {
+enum Size: Int, CaseIterable {
     case two = 2
     case three = 3
     case four = 4
@@ -15,6 +15,13 @@ enum Size: Int {
     case six = 6
     case seven = 7
     case eight = 8
+}
+
+enum Subdivision: Int {
+    case half = 2
+    case quarter = 4
+    case eighth = 8
+    case sixteenth = 16
 }
 
 enum BeatSelection {
@@ -28,6 +35,7 @@ struct MetronomeView: View {
     
     @State private var tempo = 80.0 
     @State private var size: Size = .four
+    @State private var subdivision: Subdivision = .quarter
             
     private let backgroundColor = UIColor(named: "BackgroundColor") ?? .systemGray5
     
@@ -45,14 +53,24 @@ struct MetronomeView: View {
                     .padding(.bottom)
 
                 HStack {
-                    SizePickerView(size: $size, metronome: metronome)
-
+                    
+                    VStack(spacing: 1) {
+                        SizePickerView(
+                            size: $size,
+                            subdivision: $subdivision,
+                            metronome: metronome
+                        )
+                        RhythmPicker(subdivision: $subdivision)
+                    }
+                    .padding(.leading, 20)
+                    
                     Spacer()
                     
                     Text(metronome.beat.formatted())
                         .font(.largeTitle)
+                                        
+                    Spacer(minLength: 185)
                     
-                    Spacer(minLength: 188)
                 }
                 
                 ControlWheelView(
@@ -70,7 +88,11 @@ struct MetronomeView: View {
     }
     
     private func startButtonWasTapped() {
-        metronome.buttonWasTapped(tempo: tempo)
+        metronome.buttonWasTapped(
+            tempo: tempo,
+            size: size.rawValue,
+            subdivision: subdivision.rawValue
+        )
         metronome.size = size.rawValue
     }
 }
@@ -81,30 +103,67 @@ struct MetronomeView_Previews: PreviewProvider {
     }
 }
 
+struct RhythmPicker: View {
+//    Subdivision picker for now
+    @Binding var subdivision: Subdivision
+    
+    var body: some View {
+        Picker("Subdivision", selection: $subdivision) {
+            Image("HalfNote")
+                .resizable()
+                .foregroundColor(.red)
+                .frame(width: 25, height: 25)
+                .tag(Subdivision.half)
+            Image("QuarterNote")
+                .resizable()
+                .foregroundColor(.red)
+                .frame(width: 25, height: 25)
+                .tag(Subdivision.quarter)
+            Image("EighthNote")
+                .resizable()
+                .foregroundColor(.red)
+                .frame(width: 25, height: 25)
+                .tag(Subdivision.eighth)
+            Image("SixteenthNote")
+                .resizable()
+                .foregroundColor(.red)
+                .frame(width: 33, height: 25)
+                .tag(Subdivision.sixteenth)
+        }
+        .pickerStyle(.wheel)
+        .frame(width: 100, height: 50)
+        .background(.white)
+        .cornerRadius(20)
+    }
+    
+    
+}
+
 struct SizePickerView: View {
 
     @Binding var size: Size
+    @Binding var subdivision: Subdivision
 
     var metronome: Metronome
 
     var body: some View {
         Picker("Beat", selection: $size) {
-            Text("2/4").tag(Size.two)
-            Text("3/4").tag(Size.three)
-            Text("4/4").tag(Size.four)
-            Text("5/4").tag(Size.five)
-            Text("6/4").tag(Size.six)
-            Text("7/4").tag(Size.seven)
-            Text("8/4").tag(Size.eight)
+            Text(Size.two.rawValue.formatted()).tag(Size.two)
+            Text(Size.three.rawValue.formatted()).tag(Size.three)
+            Text(Size.four.rawValue.formatted()).tag(Size.four)
+            Text(Size.five.rawValue.formatted()).tag(Size.five)
+            Text(Size.six.rawValue.formatted()).tag(Size.six)
+            Text(Size.seven.rawValue.formatted()).tag(Size.seven)
+            Text(Size.eight.rawValue.formatted()).tag(Size.eight)
         }
         .pickerStyle(.wheel)
-        .frame(width: 100, height: 100)
+        .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
-        .padding(.leading, 20)
         .onChange(of: size) { newValue in
             metronome.size = size.rawValue
         }
     }
+
 }
 
