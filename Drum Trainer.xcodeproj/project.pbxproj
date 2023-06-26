@@ -19,6 +19,7 @@
 		4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */; };
 		4DC30A792A28816800B34DD4 /* MetronomeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A782A28816800B34DD4 /* MetronomeSettings.swift */; };
 		4DC30A7B2A2883CD00B34DD4 /* ControlWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A7A2A2883CD00B34DD4 /* ControlWheelView.swift */; };
+		4DC53BEE2A49B06D009EE537 /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC53BED2A49B06D009EE537 /* SoundPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModel.swift; sourceTree = "<group>"; };
 		4DC30A782A28816800B34DD4 /* MetronomeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeSettings.swift; sourceTree = "<group>"; };
 		4DC30A7A2A2883CD00B34DD4 /* ControlWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlWheelView.swift; sourceTree = "<group>"; };
+		4DC53BED2A49B06D009EE537 /* SoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC30A732A2777A100B34DD4 /* Metronome.swift */,
+				4DC53BED2A49B06D009EE537 /* SoundPlayer.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				4D4C0BE72A41EF1300CB4842 /* BeatLightsView.swift in Sources */,
 				4DC30A742A2777A100B34DD4 /* Metronome.swift in Sources */,
 				4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */,
+				4DC53BEE2A49B06D009EE537 /* SoundPlayer.swift in Sources */,
 				4DC30A6F2A27745500B34DD4 /* MetronomeView.swift in Sources */,
 				4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */,
 				4DC30A7B2A2883CD00B34DD4 /* ControlWheelView.swift in Sources */,

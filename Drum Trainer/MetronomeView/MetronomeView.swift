@@ -49,7 +49,11 @@ struct MetronomeView: View {
             VStack {
                 Spacer(minLength: 20)
                 
-                BeatLightsView(size: $size, beat: metronome.beat)
+                BeatLightsView(
+                    size: $size,
+                    metronome: metronome,
+                    beat: metronome.beat
+                )
                     .padding(.bottom)
 
                 HStack {
@@ -57,10 +61,13 @@ struct MetronomeView: View {
                     VStack(spacing: 1) {
                         SizePickerView(
                             size: $size,
+//                            subdivision: $subdivision,
+                            metronome: metronome
+                        )
+                        RhythmPicker(
                             subdivision: $subdivision,
                             metronome: metronome
                         )
-                        RhythmPicker(subdivision: $subdivision)
                     }
                     .padding(.leading, 20)
                     
@@ -94,6 +101,7 @@ struct MetronomeView: View {
             subdivision: subdivision.rawValue
         )
         metronome.size = size.rawValue
+        metronome.subdivision = subdivision.rawValue
     }
 }
 
@@ -106,6 +114,8 @@ struct MetronomeView_Previews: PreviewProvider {
 struct RhythmPicker: View {
 //    Subdivision picker for now
     @Binding var subdivision: Subdivision
+    
+    var metronome: Metronome
     
     var body: some View {
         Picker("Subdivision", selection: $subdivision) {
@@ -134,15 +144,17 @@ struct RhythmPicker: View {
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
+        .onChange(of: subdivision) { newValue in
+            metronome.subdivision = subdivision.rawValue
+        
+        }
     }
-    
-    
 }
 
 struct SizePickerView: View {
 
     @Binding var size: Size
-    @Binding var subdivision: Subdivision
+//    @Binding var subdivision: Subdivision
 
     var metronome: Metronome
 

@@ -16,6 +16,8 @@ struct BeatLightsView: View {
     @State private var numberOfCirclesInFirstRow = 4
     @State private var numberOfCirclesInSecondRow = 0
     
+    let metronome: Metronome
+    
     let beat: Int
     
     var body: some View {
@@ -89,25 +91,7 @@ struct BeatLightsView: View {
         }
     }
     
-    private func playingBeatCircleColorSetUp(beat: Int, index: Int) -> Color {
-        let color: Color
-        
-        if beat == index {
-            switch selectedBeats[index] {
-            case .accent:
-                color = .green
-            case .weak:
-                color = .red
-            default:
-                color = .yellow
-            }
-        } else {
-            color = Color("BackgroundColor")
-        }
-        
-        return color
-    }
-    
+   // MARK: - Selection
     private func setUpBeatSelection() {
         for beat in 2...size.rawValue {
             if selectedBeats[beat] == nil {
@@ -122,11 +106,6 @@ struct BeatLightsView: View {
         }
     }
     
-    private func setUpCircleAppearance(index: Int) -> Double {
-        let diameterOfCircle = selectedBeats[index] == .ghost ? 16.0 : 40.0
-        return diameterOfCircle
-    }
-    
     private func selectBeats(from index: Int) {
         switch selectedBeats[index] {
         case .accent:
@@ -138,6 +117,35 @@ struct BeatLightsView: View {
         }
     }
     
+    // MARK: - Appearance
+    private func playingBeatCircleColorSetUp(beat: Int, index: Int) -> Color {
+        let color: Color
+        
+        if beat == index {
+            switch selectedBeats[index] {
+            case .accent:
+                color = .green
+                metronome.beatSelection = .accent
+            case .weak:
+                color = .red
+                metronome.beatSelection = .weak
+            default:
+                color = .yellow
+                metronome.beatSelection = .ghost
+            }
+        } else {
+            color = Color("BackgroundColor")
+        }
+        
+        return color
+    }
+    
+    private func setUpCircleAppearance(index: Int) -> Double {
+        let diameterOfCircle = selectedBeats[index] == .ghost ? 16.0 : 40.0
+        return diameterOfCircle
+    }
+    
+    // MARK: - Number
     private func getNumberOfRows() {
         numberOfRows = size.rawValue > 4 ? 2 : 1
     }
@@ -182,7 +190,7 @@ struct BeatLightsView: View {
 
 struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
-        BeatLightsView(size: .constant(Size.five), beat: 3)
+        BeatLightsView(size: .constant(Size.five), metronome: Metronome(), beat: 3)
     }
 }
 
