@@ -121,12 +121,16 @@ class Metronome: ObservableObject {
                 player.playSound(beat: beatSelection)
             }
         } else if subdivision == 8 {
-            if timeUnit == 1 || timeUnit == 9 {
+            if timeUnit == 1 {
                 player.playSound(beat: beatSelection)
+            } else if timeUnit == 9 {
+                player.playSound(beat: .weak)
             }
         } else if subdivision == 16 {
-            if timeUnit == 1 || timeUnit == 5 || timeUnit == 9 || timeUnit == 13 {
+            if timeUnit == 1 {
                 player.playSound(beat: beatSelection)
+            } else if timeUnit == 5 || timeUnit == 9 || timeUnit == 13 {
+                player.playSound(beat: .weak)
             }
         }
     }
