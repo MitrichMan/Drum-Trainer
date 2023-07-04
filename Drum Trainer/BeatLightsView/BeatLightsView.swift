@@ -17,13 +17,11 @@ struct BeatLightsView: View {
     @State private var numberOfCirclesInSecondRow = 0
     
     @Binding var size: Size
-        
-    let beat: Int
     
+    let beat: Int
     let metronome: Metronome
     
     var body: some View {
-        
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .frame(width: 350, height: 200)
@@ -52,7 +50,7 @@ struct BeatLightsView: View {
                                     )
                                 )
                                 
-                                BeatCircle(
+                                BeatCircleView(
                                     playingBeatCircleColor: playingBeatCircleColorSetUp(
                                         beat: beat,
                                         index: getIndexForElement(
@@ -192,45 +190,6 @@ struct BeatLightsView: View {
 
 struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
-        BeatLightsView(size: .constant(Size.five), beat: 3, metronome: Metronome())
-    }
-}
-
-struct AccentNimbusView: View {
-    let beatSelection: BeatSelection
-    let color: Color
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .foregroundColor(color)
-                .frame(width: 52)
-            Circle()
-                .foregroundColor(.white)
-                .frame(width: 46)
-        }
-        .opacity(setUpOpacity())
-    }
-    
-    private func setUpOpacity() -> Double {
-        let opacity: Double
-        if beatSelection == .accent {
-            opacity = 1.0
-        } else {
-            opacity = 0.0
-        }
-        return opacity
-    }
-}
-
-struct BeatCircle: View {
-    let playingBeatCircleColor: Color
-
-    let circleDiameter: Double
-    
-    var body: some View {
-        Circle()
-            .frame(width: circleDiameter)
-            .foregroundColor(playingBeatCircleColor)
+        BeatLightsView(size: .constant(Size.six), beat: 3, metronome: Metronome())
     }
 }

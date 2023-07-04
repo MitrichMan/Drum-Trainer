@@ -22,7 +22,7 @@ class BeatLightsViewModel: ObservableObject {
     private let metronome: Metronome = Metronome()
     
     // MARK: - Selection
-     private func setUpBeatSelection() {
+    func setUpBeatSelection() {
          for beat in 2...size.rawValue {
              if selectedBeats[beat] == nil {
                  selectedBeats[beat] = .weak
@@ -30,13 +30,13 @@ class BeatLightsViewModel: ObservableObject {
          }
      }
      
-     private func deInitUnusedBeats() {
+    func deInitUnusedBeats() {
          if selectedBeats.count > size.rawValue {
              selectedBeats[size.rawValue + 1] = nil
          }
      }
      
-     private func selectBeats(from index: Int) {
+    func selectBeats(from index: Int) {
          switch selectedBeats[index] {
          case .accent:
              selectedBeats[index] = .ghost
@@ -48,7 +48,7 @@ class BeatLightsViewModel: ObservableObject {
      }
      
      // MARK: - Appearance
-     private func playingBeatCircleColorSetUp(beat: Int, index: Int) -> Color {
+    func playingBeatCircleColorSetUp(beat: Int, index: Int) -> Color {
          let color: Color
          
          if beat == index {
@@ -70,17 +70,17 @@ class BeatLightsViewModel: ObservableObject {
          return color
      }
      
-     private func setUpCircleAppearance(index: Int) -> Double {
+    func setUpCircleAppearance(index: Int) -> Double {
          let diameterOfCircle = selectedBeats[index] == .ghost ? 16.0 : 40.0
          return diameterOfCircle
      }
      
      // MARK: - Number
-     private func getNumberOfRows() {
+    func getNumberOfRows() {
          numberOfRows = size.rawValue > 4 ? 2 : 1
      }
      
-     private func getNumberOfCirclesInRow() {
+    func getNumberOfCirclesInRow() {
          if size.rawValue > 4 {
              if size.rawValue % 2 == 0 {
                  numberOfCirclesInFirstRow = size.rawValue / 2
@@ -94,7 +94,7 @@ class BeatLightsViewModel: ObservableObject {
          }
      }
      
-     private func getNumberOfElements(rowIndex: Int) -> Int {
+    func getNumberOfElements(rowIndex: Int) -> Int {
          let numberOfElements: Int
          
          if rowIndex == 1 {
@@ -105,7 +105,7 @@ class BeatLightsViewModel: ObservableObject {
          return numberOfElements
      }
      
-     private func getIndexForElement(rowIndex: Int, index: Int) -> Int {
+    func getIndexForElement(rowIndex: Int, index: Int) -> Int {
          let indexOfElement: Int
          
          if rowIndex == 1 {

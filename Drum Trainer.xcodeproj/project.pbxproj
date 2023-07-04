@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4D4C0BE72A41EF1300CB4842 /* BeatLightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */; };
+		4DA4D71E2A54007600210D1A /* BeatCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA4D71D2A54007600210D1A /* BeatCircleView.swift */; };
+		4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */; };
 		4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */; };
 		4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */; };
 		4DC30A482A27716500B34DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC30A472A27716500B34DD4 /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 
 /* Begin PBXFileReference section */
 		4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatLightsView.swift; sourceTree = "<group>"; };
+		4DA4D71D2A54007600210D1A /* BeatCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatCircleView.swift; sourceTree = "<group>"; };
+		4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccentNimbusView.swift; sourceTree = "<group>"; };
 		4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatLightsViewModel.swift; sourceTree = "<group>"; };
 		4DC30A402A27716300B34DD4 /* Drum Trainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drum Trainer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drum_TrainerApp.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 			children = (
 				4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */,
 				4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */,
+				4DA4D71D2A54007600210D1A /* BeatCircleView.swift */,
+				4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */,
 			);
 			path = BeatLightsView;
 			sourceTree = "<group>";
@@ -320,11 +326,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA4D71E2A54007600210D1A /* BeatCircleView.swift in Sources */,
 				4D4C0BE72A41EF1300CB4842 /* BeatLightsView.swift in Sources */,
 				4DC30A742A2777A100B34DD4 /* Metronome.swift in Sources */,
 				4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */,
 				4DC53BEE2A49B06D009EE537 /* SoundPlayer.swift in Sources */,
 				4DC30A6F2A27745500B34DD4 /* MetronomeView.swift in Sources */,
+				4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */,
 				4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */,
 				4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */,
 				4DC30A7B2A2883CD00B34DD4 /* ControlWheelView.swift in Sources */,
