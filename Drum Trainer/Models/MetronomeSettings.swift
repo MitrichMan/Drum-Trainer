@@ -6,16 +6,24 @@
 //
 
 struct MetronomeSettings {
-    let metronome: Metronome
-    let size: Size
-    let beat: Int
-    let tempo: Double
-    let subDivision: Subdivision
-    let beatSelection: BeatSelection
-    let selectedBeats: [Int: BeatSelection]
+    var metronome: Metronome
+    var size: Size
+    var beat: Int
+    var tempo: Double
+    var subdivision: Subdivision
+    var selectedBeats: [Int: BeatSelection]
+    
+    init(metronome: Metronome, size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
+        self.metronome = metronome
+        self.size = size
+        self.beat = beat
+        self.tempo = tempo
+        self.subdivision = subdivision
+        self.selectedBeats = selectedBeats
+    }
 }
 
-enum Size: Int, CaseIterable {
+enum Size: Int, CaseIterable, Identifiable {
     case two = 2
     case three = 3
     case four = 4
@@ -23,6 +31,8 @@ enum Size: Int, CaseIterable {
     case six = 6
     case seven = 7
     case eight = 8
+    
+    var id: Self { self }
 }
 
 enum Subdivision: Int {

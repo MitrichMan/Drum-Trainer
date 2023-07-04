@@ -30,7 +30,8 @@ struct ControlWheelView: View {
             )
             
             ControlButtonsView(
-                tempo: $tempo, startMetronome: startMetronome,
+                tempo: $tempo,
+                startMetronome: startMetronome,
                 backgroundColor: backgroundColor,
                 bigCircleDiameter: bigCircleDiameter
             )
@@ -67,7 +68,7 @@ struct TempoControlWheel: View {
 
     var body: some View {
         ZStack {
-            ControlCircle(
+            ControlCircleView(
                 bigCircleDiameter: bigCircleDiameter,
                 tempo: $tempo
             )
@@ -81,61 +82,12 @@ struct TempoControlWheel: View {
 //                    )
 //                )
                 .foregroundColor(Color(backgroundColor))
-
                 .frame(width: centerHoleDiameter)
         }
     }
 }
 
-struct ControlCircle: View {
-    let bigCircleDiameter: CGFloat
-    
-    @Binding var tempo: Double
-    
-    @State private var lastAngle: CGFloat = 0
-    @State private var counter: CGFloat = 0
-    
-    var body: some View {
-#warning("deal with shadow")
-        Circle()
-            .foregroundColor(.white)
-//            .shadow(color: .gray, radius: 1)
-            .frame(width: bigCircleDiameter)
-            .gesture(DragGesture()
-                .onChanged{ value in
-                    rotationControlLogic(value)
-                }
-                .onEnded { v in
-                    self.counter = 0
-                })
-    }
-    
-    private func rotationControlLogic(_ value: DragGesture.Value) {
-        let deltaX = value.location.x - bigCircleDiameter / 2
-        let deltaY = bigCircleDiameter / 2 - value.location.y
-        var angle = atan2(deltaX, deltaY) * 180 / .pi
-        if (angle < 0) {
-            angle += 360
-        }
-        
-        let theta = self.lastAngle - angle
-        self.lastAngle = angle
-        
-        if (abs(theta) < 20) {
-            self.counter += theta
-        }
-        
-        if self.counter > 20 && tempo > 40 {
-            tempo -= 1
-        } else if self.counter < -20 && tempo < 300{
-            tempo += 1
-        }
-        
-        if (abs(self.counter) > 20) {
-            self.counter = 0
-        }
-    }
-}
+
 
 
 struct ControlButtonsView: View {
@@ -145,7 +97,6 @@ struct ControlButtonsView: View {
     
     let backgroundColor: UIColor
     let bigCircleDiameter: CGFloat
-    
     
     var body: some View {
         Button(action: startMetronome) {

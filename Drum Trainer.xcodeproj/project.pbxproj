@@ -11,6 +11,9 @@
 		4DA4D71E2A54007600210D1A /* BeatCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA4D71D2A54007600210D1A /* BeatCircleView.swift */; };
 		4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */; };
 		4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */; };
+		4DBB2CB02A54508900A4F56E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CAF2A54508900A4F56E /* DataManager.swift */; };
+		4DBB2CB42A54597F00A4F56E /* ControlCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */; };
+		4DBB2CB62A5459C600A4F56E /* ControlCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */; };
 		4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */; };
 		4DC30A482A27716500B34DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC30A472A27716500B34DD4 /* Assets.xcassets */; };
 		4DC30A4B2A27716500B34DD4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC30A4A2A27716500B34DD4 /* Preview Assets.xcassets */; };
@@ -47,6 +50,9 @@
 		4DA4D71D2A54007600210D1A /* BeatCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatCircleView.swift; sourceTree = "<group>"; };
 		4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccentNimbusView.swift; sourceTree = "<group>"; };
 		4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatLightsViewModel.swift; sourceTree = "<group>"; };
+		4DBB2CAF2A54508900A4F56E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCircleView.swift; sourceTree = "<group>"; };
+		4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCircleViewModel.swift; sourceTree = "<group>"; };
 		4DC30A402A27716300B34DD4 /* Drum Trainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drum Trainer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drum_TrainerApp.swift; sourceTree = "<group>"; };
 		4DC30A472A27716500B34DD4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 			children = (
 				4DC30A732A2777A100B34DD4 /* Metronome.swift */,
 				4DC53BED2A49B06D009EE537 /* SoundPlayer.swift */,
+				4DBB2CAF2A54508900A4F56E /* DataManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -190,6 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				4DC30A7A2A2883CD00B34DD4 /* ControlWheelView.swift */,
+				4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */,
+				4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */,
 			);
 			path = ControlWheelView;
 			sourceTree = "<group>";
@@ -327,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DA4D71E2A54007600210D1A /* BeatCircleView.swift in Sources */,
+				4DBB2CB02A54508900A4F56E /* DataManager.swift in Sources */,
 				4D4C0BE72A41EF1300CB4842 /* BeatLightsView.swift in Sources */,
 				4DC30A742A2777A100B34DD4 /* Metronome.swift in Sources */,
 				4DC30A762A2880F300B34DD4 /* MetronomeViewModel.swift in Sources */,
@@ -335,7 +345,9 @@
 				4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */,
 				4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */,
 				4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */,
+				4DBB2CB42A54597F00A4F56E /* ControlCircleView.swift in Sources */,
 				4DC30A7B2A2883CD00B34DD4 /* ControlWheelView.swift in Sources */,
+				4DBB2CB62A5459C600A4F56E /* ControlCircleViewModel.swift in Sources */,
 				4DC30A792A28816800B34DD4 /* MetronomeSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,19 +8,11 @@
 import SwiftUI
 
 struct MetronomeView: View {
-    @StateObject var metronome = Metronome()
-    
-    @State private var tempo = 80.0 
-    @State private var size: Size = .four
-    @State private var subdivision: Subdivision = .quarter
-            
-    private let backgroundColor = UIColor(named: "BackgroundColor") ?? .systemGray5
-    
-    private let bigCircleDiameter: CGFloat = 350
-    
+    @StateObject var viewModel = MetronomeViewModel()
+        
     var body: some View {
         ZStack{
-            Color(backgroundColor)
+            Color(viewModel.backgroundColor)
                 .ignoresSafeArea()
             
             VStack {
@@ -28,12 +20,10 @@ struct MetronomeView: View {
                 
                 BeatLightsView(
                     viewModel: BeatLightsViewModel(
-                        metronome: metronome,
-                        beat: metronome.beat,
-                        size: size),
-                    size: $size,
-                    beat: metronome.beat,
-                    metronome: metronome
+                        metronome: viewModel.metronome,
+                        beat: viewModel.metronome.beat,
+                        size: viewModel.size
+                    )
                 )
                     .padding(.bottom)
 
@@ -41,20 +31,19 @@ struct MetronomeView: View {
                     
                     VStack(spacing: 1) {
                         SizePickerView(
-                            size: $size,
-//                            subdivision: $subdivision,
-                            metronome: metronome
+                            size: $viewModel.size,
+                            metronome: viewModel.metronome
                         )
                         RhythmPicker(
-                            subdivision: $subdivision,
-                            metronome: metronome
+                            subdivision: $viewModel.subdivision,
+                            metronome: viewModel.metronome
                         )
                     }
                     .padding(.leading, 20)
                     
                     Spacer()
                     
-                    Text(metronome.beat.formatted())
+                    Text(viewModel.metronome.beat.formatted())
                         .font(.largeTitle)
                                         
                     Spacer(minLength: 185)
@@ -62,28 +51,31 @@ struct MetronomeView: View {
                 }
                 
                 ControlWheelView(
-                    tempo: $tempo,
-                    bigCircleDiameter: bigCircleDiameter,
-                    startMetronome: startButtonWasTapped
+                    tempo: $viewModel.tempo,
+                    bigCircleDiameter: viewModel.bigCircleDiameter,
+                    startMetronome: viewModel.startButtonWasTapped
                 )
-                .onChange(of: tempo) { newValue in
-                    metronome.tempo = tempo
-                }
+//                .onChange(of: viewModel.tempo) { newValue in
+//                    viewModel.metronome.tempo = viewModel.tempo
+//                }
                 
                 Spacer(minLength: 50)
             }
         }
+        .onAppear(
+            
+        )
     }
     
-    private func startButtonWasTapped() {
-        metronome.buttonWasTapped(
-            tempo: tempo,
-            size: size.rawValue,
-            subdivision: subdivision.rawValue
-        )
-        metronome.size = size.rawValue
-        metronome.subdivision = subdivision.rawValue
-    }
+//    private func startButtonWasTapped() {
+//        metronome.buttonWasTapped(
+//            tempo: viewModel.tempo,
+//            size: viewModel.size.rawValue,
+//            subdivision: viewModel.subdivision.rawValue
+//        )
+//        metronome.size = viewModel.size.rawValue
+//        metronome.subdivision = viewModel.subdivision.rawValue
+//    }
 }
 
 struct MetronomeView_Previews: PreviewProvider {
@@ -93,11 +85,12 @@ struct MetronomeView_Previews: PreviewProvider {
 }
 
 struct RhythmPicker: View {
-//    Subdivision picker for now
+///    Subdivision picker for now
     @Binding var subdivision: Subdivision
     
     var metronome: Metronome
     
+/// I will change it when i will work on rhythmic patterns
     var body: some View {
         Picker("Subdivision", selection: $subdivision) {
             Image("HalfNote")
@@ -126,7 +119,7 @@ struct RhythmPicker: View {
         .background(.white)
         .cornerRadius(20)
         .onChange(of: subdivision) { newValue in
-            metronome.subdivision = subdivision.rawValue
+            metronome.subdivision = subdivision
         
         }
     }
@@ -140,21 +133,27 @@ struct SizePickerView: View {
     var metronome: Metronome
 
     var body: some View {
+//        Picker("Beat", selection: $size) {
+//            Text(Size.two.rawValue.formatted()).tag(Size.two)
+//            Text(Size.three.rawValue.formatted()).tag(Size.three)
+//            Text(Size.four.rawValue.formaztted()).tag(Size.four)
+//            Text(Size.five.rawValue.formatted()).tag(Size.five)
+//            Text(Size.six.rawValue.formatted()).tag(Size.six)
+//            Text(Size.seven.rawValue.formatted()).tag(Size.seven)
+//            Text(Size.eight.rawValue.formatted()).tag(Size.eight)
+//        }
         Picker("Beat", selection: $size) {
-            Text(Size.two.rawValue.formatted()).tag(Size.two)
-            Text(Size.three.rawValue.formatted()).tag(Size.three)
-            Text(Size.four.rawValue.formatted()).tag(Size.four)
-            Text(Size.five.rawValue.formatted()).tag(Size.five)
-            Text(Size.six.rawValue.formatted()).tag(Size.six)
-            Text(Size.seven.rawValue.formatted()).tag(Size.seven)
-            Text(Size.eight.rawValue.formatted()).tag(Size.eight)
+            ForEach(Size.allCases) { size in
+                Text(String(describing: size.rawValue)).tag(size)
+            }
         }
         .pickerStyle(.wheel)
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
         .onChange(of: size) { newValue in
-            metronome.size = size.rawValue
+            metronome.size = size
+            print(metronome.size.rawValue.formatted())
         }
     }
 

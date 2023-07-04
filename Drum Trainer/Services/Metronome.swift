@@ -15,23 +15,21 @@ class Metronome: ObservableObject {
     var beatSelection: BeatSelection = .accent
     var beat = 0
     var timeUnit = 0
-    var size = 4
-    var subdivision = 4
+    var size: Size = .four
+    var subdivision: Subdivision = .quarter
     var tempo = 80.0 {
         didSet {
             if player.player?.isPlaying == true {
                 killMetronome()
-                startMetronome(tempo: tempo, subdivision: subdivision)
+                startMetronome(tempo: tempo, subdivision: subdivision.rawValue)
             }
         }
     }
     
     private let player = SoundPlayer()
-    
     private var metronome: Timer?
     
     private var isPlaying = false
-    
     private var wasPlayed = false
     
     // MARK: - Interface
@@ -96,8 +94,8 @@ class Metronome: ObservableObject {
     private func setUpBeats() {
         setTimeUnit()
         if timeUnit == 1 {
-            if beat <= size {
-                if beat == size {
+            if beat <= size.rawValue {
+                if beat == size.rawValue {
                     beat = 1
                     wasPlayed = false
                 } else {
@@ -108,7 +106,7 @@ class Metronome: ObservableObject {
     }
     
     private func playSound() {
-        if subdivision == 2 {
+        if subdivision.rawValue == 2 {
             if timeUnit == 1 {
                 if wasPlayed == false {
                     player.playSound(beat: beatSelection)
@@ -117,17 +115,17 @@ class Metronome: ObservableObject {
                     wasPlayed = false
                 }
             }
-        } else if subdivision == 4 {
+        } else if subdivision.rawValue == 4 {
             if timeUnit == 1 {
                 player.playSound(beat: beatSelection)
             }
-        } else if subdivision == 8 {
+        } else if subdivision.rawValue == 8 {
             if timeUnit == 1 {
                 player.playSound(beat: beatSelection)
             } else if timeUnit == 9 {
                 player.playSound(beat: .weak)
             }
-        } else if subdivision == 16 {
+        } else if subdivision.rawValue == 16 {
             if timeUnit == 1 {
                 player.playSound(beat: beatSelection)
             } else if timeUnit == 5 || timeUnit == 9 || timeUnit == 13 {
