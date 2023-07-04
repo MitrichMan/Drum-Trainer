@@ -13,7 +13,7 @@ class MetronomeViewModel: ObservableObject {
         settings.tempo
     }
     
-    var size: Int {
+    var size: Size {
         settings.size
     }
     

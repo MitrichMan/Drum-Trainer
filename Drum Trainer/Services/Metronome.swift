@@ -99,6 +99,7 @@ class Metronome: ObservableObject {
             if beat <= size {
                 if beat == size {
                     beat = 1
+                    wasPlayed = false
                 } else {
                     beat += 1
                 }

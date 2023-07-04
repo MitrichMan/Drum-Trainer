@@ -7,29 +7,6 @@
 
 import SwiftUI
 
-enum Size: Int, CaseIterable {
-    case two = 2
-    case three = 3
-    case four = 4
-    case five = 5
-    case six = 6
-    case seven = 7
-    case eight = 8
-}
-
-enum Subdivision: Int {
-    case half = 2
-    case quarter = 4
-    case eighth = 8
-    case sixteenth = 16
-}
-
-enum BeatSelection {
-    case accent
-    case weak
-    case ghost
-}
-
 struct MetronomeView: View {
     @StateObject var metronome = Metronome()
     
@@ -51,8 +28,8 @@ struct MetronomeView: View {
                 
                 BeatLightsView(
                     size: $size,
-                    metronome: metronome,
-                    beat: metronome.beat
+                    beat: metronome.beat,
+                    metronome: metronome
                 )
                     .padding(.bottom)
 

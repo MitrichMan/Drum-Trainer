@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BeatLightsView: View {
-    @Binding var size: Size
+    @StateObject private var viewModel = BeatLightsViewModel()
     
     @State private var selectedBeats: [Int: BeatSelection] = [1: .accent]
     
@@ -16,9 +16,11 @@ struct BeatLightsView: View {
     @State private var numberOfCirclesInFirstRow = 4
     @State private var numberOfCirclesInSecondRow = 0
     
-    let metronome: Metronome
-    
+    @Binding var size: Size
+        
     let beat: Int
+    
+    let metronome: Metronome
     
     var body: some View {
         
@@ -190,7 +192,7 @@ struct BeatLightsView: View {
 
 struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
-        BeatLightsView(size: .constant(Size.five), metronome: Metronome(), beat: 3)
+        BeatLightsView(size: .constant(Size.five), beat: 3, metronome: Metronome())
     }
 }
 

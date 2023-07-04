@@ -25,7 +25,7 @@ struct ControlWheelView: View {
             
             TempoControlWheel(
                 bigCircleDiameter: bigCircleDiameter,
-                backgroundColor: Color(backgroundColor),
+                backgroundColor: backgroundColor,
                 tempo: $tempo
             )
             
@@ -57,7 +57,7 @@ struct ControlWheelView_Previews: PreviewProvider {
 struct TempoControlWheel: View {
     
     let bigCircleDiameter: CGFloat
-    let backgroundColor: Color
+    let backgroundColor: UIColor
     
     @Binding var tempo: Double
     
@@ -75,11 +75,13 @@ struct TempoControlWheel: View {
             
 #warning("deal with shadow")
             Circle()
-                .foregroundStyle(
-                    backgroundColor.shadow(
-                        .inner(color: .gray, radius: 0)
-                    )
-                )
+//                .foregroundStyle(
+//                    backgroundColor.shadow(
+//                        .inner(color: .gray, radius: 0)
+//                    )
+//                )
+                .foregroundColor(Color(backgroundColor))
+
                 .frame(width: centerHoleDiameter)
         }
     }
@@ -150,6 +152,7 @@ struct ControlButtonsView: View {
             Image(systemName: "playpause.fill")
                 .font(.largeTitle)
                 .foregroundColor(Color(backgroundColor))
+                .frame(width: 70, height: 70)
         }
         .offset(y: -bigCircleDiameter / 3)
         
@@ -157,23 +160,26 @@ struct ControlButtonsView: View {
         //                .font(.title)
         //                .foregroundColor(Color(backgroundColor))
         //                .offset(y: bigCircleDiameter / 3)
+        
         Button(action: tempoMinus) {
             Image(systemName: "minus")
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .foregroundColor(Color(backgroundColor))
+                .frame(width: 50, height: 50)
         }
-        .frame(width: 50, height: 50)
         .offset(x: -bigCircleDiameter / 3)
+        
         
         Button(action: tempoPlus) {
             Image(systemName: "plus")
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .foregroundColor(Color(backgroundColor))
+                .frame(width: 50, height: 50)
+
         }
         .offset(x: bigCircleDiameter / 3)
-
     }
     
     private func tempoMinus() {
