@@ -9,17 +9,26 @@ import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
     
-    @Published var size: Size = .four
+//    @Published var size: Size = .four
             
     @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]
 
-    @Published var beat: Int = 0
+//    @Published var beat: Int = 0
 
     @Published var numberOfRows = 1
     @Published var numberOfCirclesInFirstRow = 4
     @Published var numberOfCirclesInSecondRow = 0
 
-    private let metronome: Metronome = Metronome()
+//    private let metronome: Metronome = Metronome()
+    private let metronome: Metronome
+    private let beat: Int
+    private let size: Size
+    
+    init(metronome: Metronome, beat: Int, size: Size) {
+        self.metronome = metronome
+        self.beat = beat
+        self.size = size
+    }
     
     // MARK: - Selection
     func setUpBeatSelection() {

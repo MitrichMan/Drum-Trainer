@@ -27,6 +27,10 @@ struct MetronomeView: View {
                 Spacer(minLength: 20)
                 
                 BeatLightsView(
+                    viewModel: BeatLightsViewModel(
+                        metronome: metronome,
+                        beat: metronome.beat,
+                        size: size),
                     size: $size,
                     beat: metronome.beat,
                     metronome: metronome
