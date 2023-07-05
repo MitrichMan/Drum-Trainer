@@ -102,10 +102,36 @@
 		4D4C0BE32A41EEB300CB4842 /* BeatLightsView */ = {
 			isa = PBXGroup;
 			children = (
-				4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */,
-				4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */,
+				4DBB2CBD2A545BBC00A4F56E /* BeatLightsView */,
 				4DA4D71D2A54007600210D1A /* BeatCircleView.swift */,
 				4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */,
+			);
+			path = BeatLightsView;
+			sourceTree = "<group>";
+		};
+		4DBB2CBB2A545B8700A4F56E /* ControlCircleView */ = {
+			isa = PBXGroup;
+			children = (
+				4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */,
+				4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */,
+			);
+			path = ControlCircleView;
+			sourceTree = "<group>";
+		};
+		4DBB2CBC2A545B9E00A4F56E /* ControlButtonsWiew */ = {
+			isa = PBXGroup;
+			children = (
+				4DBB2CB72A545AD300A4F56E /* ControlButtonsView.swift */,
+				4DBB2CB92A545AFE00A4F56E /* ControlButtonsViewModel.swift */,
+			);
+			path = ControlButtonsWiew;
+			sourceTree = "<group>";
+		};
+		4DBB2CBD2A545BBC00A4F56E /* BeatLightsView */ = {
+			isa = PBXGroup;
+			children = (
+				4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */,
+				4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */,
 			);
 			path = BeatLightsView;
 			sourceTree = "<group>";
@@ -201,10 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				4DC30A7A2A2883CD00B34DD4 /* ControlWheelView.swift */,
-				4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */,
-				4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */,
-				4DBB2CB72A545AD300A4F56E /* ControlButtonsView.swift */,
-				4DBB2CB92A545AFE00A4F56E /* ControlButtonsViewModel.swift */,
+				4DBB2CBB2A545B8700A4F56E /* ControlCircleView */,
+				4DBB2CBC2A545B9E00A4F56E /* ControlButtonsWiew */,
 			);
 			path = ControlWheelView;
 			sourceTree = "<group>";

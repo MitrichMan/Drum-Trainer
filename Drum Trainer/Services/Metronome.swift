@@ -12,11 +12,16 @@ import UIKit
 class Metronome: ObservableObject {
     let objectWillChange = PassthroughSubject<Metronome, Never>()
     
+//    @Published
     var beatSelection: BeatSelection = .accent
+//    @Published
     var beat = 0
-    var timeUnit = 0
+//    @Published
     var size: Size = .four
+//    @Published
     var subdivision: Subdivision = .quarter
+    
+    var timeUnit = 0
     var tempo = 80.0 {
         didSet {
             if player.player?.isPlaying == true {

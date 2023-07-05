@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MetronomeView: View {
+    @EnvironmentObject private var metronome: Metronome
+    
     @StateObject var viewModel = MetronomeViewModel()
         
     var body: some View {
@@ -20,30 +22,30 @@ struct MetronomeView: View {
                 
                 BeatLightsView(
                     viewModel: BeatLightsViewModel(
-                        metronome: viewModel.metronome,
-                        beat: viewModel.metronome.beat,
+                        beat: metronome.beat,
                         size: viewModel.size
                     )
                 )
-                    .padding(.bottom)
+                .environmentObject(metronome)
+                .padding(.bottom)
 
                 HStack {
                     
                     VStack(spacing: 1) {
                         SizePickerView(
                             size: $viewModel.size,
-                            metronome: viewModel.metronome
+                            metronome: metronome
                         )
                         RhythmPicker(
                             subdivision: $viewModel.subdivision,
-                            metronome: viewModel.metronome
+                            metronome: metronome
                         )
                     }
                     .padding(.leading, 20)
                     
                     Spacer()
                     
-                    Text(viewModel.metronome.beat.formatted())
+                    Text(metronome.beat.formatted())
                         .font(.largeTitle)
                                         
                     Spacer(minLength: 185)
@@ -55,16 +57,16 @@ struct MetronomeView: View {
                     bigCircleDiameter: viewModel.bigCircleDiameter,
                     startMetronome: viewModel.startButtonWasTapped
                 )
-//                .onChange(of: viewModel.tempo) { newValue in
-//                    viewModel.metronome.tempo = viewModel.tempo
-//                }
+                .onChange(of: viewModel.tempo) { newValue in
+                    metronome.tempo = viewModel.tempo
+                }
                 
                 Spacer(minLength: 50)
             }
         }
-        .onAppear(
-            
-        )
+        .onAppear {
+            viewModel.metronome = metronome
+        }
     }
     
 //    private func startButtonWasTapped() {

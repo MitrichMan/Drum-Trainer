@@ -8,6 +8,8 @@
 import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
+     var metronome = Metronome()
+
     
     @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]
     
@@ -19,10 +21,15 @@ class BeatLightsViewModel: ObservableObject {
     var beat: Int
     var size: Size
     
-    private let metronome: Metronome
+//    private let metronome: Metronome
     
-    init(metronome: Metronome, beat: Int, size: Size) {
-        self.metronome = metronome
+//    init(metronome: Metronome, beat: Int, size: Size) {
+//        self.metronome = metronome
+//        self.beat = beat
+//        self.size = size
+//    }
+    
+    init(beat: Int, size: Size) {
         self.beat = beat
         self.size = size
     }

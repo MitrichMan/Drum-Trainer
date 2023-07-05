@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BeatLightsView: View {
+    @EnvironmentObject private var metronome: Metronome
+    
     @StateObject var viewModel: BeatLightsViewModel
     
     var body: some View {
@@ -70,6 +72,7 @@ struct BeatLightsView: View {
             }
         }
         .onAppear {
+            viewModel.metronome = metronome
             viewModel.setUpBeatSelection()
             viewModel.getNumberOfRows()
             viewModel.getNumberOfCirclesInRow()
@@ -181,7 +184,7 @@ struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
         BeatLightsView(
             viewModel: BeatLightsViewModel(
-                metronome: Metronome(),
+//                metronome: Metronome(),
                 beat: 3,
                 size: .four
             )
