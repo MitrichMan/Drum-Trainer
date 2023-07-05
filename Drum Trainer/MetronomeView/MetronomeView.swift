@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MetronomeView: View {
     @EnvironmentObject private var metronome: Metronome
-    
     @StateObject private var viewModel = MetronomeViewModel()
         
     var body: some View {
@@ -51,7 +50,6 @@ struct MetronomeView: View {
                 ControlWheelView(
                     tempo: $metronome.tempo,
                     bigCircleDiameter: viewModel.bigCircleDiameter,
-//                    startMetronome: viewModel.startButtonWasTapped
                     startMetronome: metronome.buttonWasTapped
                 )
                 
@@ -72,12 +70,12 @@ struct MetronomeView_Previews: PreviewProvider {
 }
 
 struct RhythmPicker: View {
-///    Subdivision picker for now
+//    Subdivision picker for now
     @EnvironmentObject private var metronome: Metronome
 
     @Binding var subdivision: Subdivision
         
-#warning ("Change it when work with rhythmic patterns will be done!!!!")
+// Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
         Picker("Subdivision", selection: $subdivision) {
             Image("HalfNote")

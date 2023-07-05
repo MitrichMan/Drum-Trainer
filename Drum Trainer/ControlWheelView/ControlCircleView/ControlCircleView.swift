@@ -16,10 +16,8 @@ struct ControlCircleView: View {
     @State private var counter: CGFloat = 0
     
     var body: some View {
-#warning("deal with shadow")
         Circle()
             .foregroundColor(.white)
-//            .shadow(color: .gray, radius: 1)
             .frame(width: bigCircleDiameter)
             .gesture(DragGesture()
                 .onChanged{ value in

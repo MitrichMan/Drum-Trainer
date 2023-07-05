@@ -73,14 +73,7 @@ struct TempoControlWheel: View {
                 tempo: $tempo
             )
             
-            
-#warning("deal with shadow")
             Circle()
-//                .foregroundStyle(
-//                    backgroundColor.shadow(
-//                        .inner(color: .gray, radius: 0)
-//                    )
-//                )
                 .foregroundColor(Color(backgroundColor))
                 .frame(width: centerHoleDiameter)
         }
