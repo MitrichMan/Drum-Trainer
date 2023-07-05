@@ -8,27 +8,18 @@
 import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
-     var metronome = Metronome()
-
     
     @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]
     
     @Published var numberOfRows = 1
-    
     @Published var numberOfCirclesInFirstRow = 4
     @Published var numberOfCirclesInSecondRow = 0
     
-    var beat: Int
-    var size: Size
-    
-    init(beat: Int, size: Size) {
-        self.beat = beat
-        self.size = size
-    }
+    @Published var metronome = Metronome()
     
     // MARK: - Selection
     func setUpBeatSelection() {
-        for beat in 2...size.rawValue {
+        for beat in 2...metronome.size.rawValue {
             if selectedBeats[beat] == nil {
                 selectedBeats[beat] = .weak
             }
@@ -36,8 +27,10 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     func deInitUnusedBeats() {
-        if selectedBeats.count > size.rawValue {
-            selectedBeats[size.rawValue + 1] = nil
+        if selectedBeats.count > metronome.size.rawValue {
+            for beat in (metronome.size.rawValue + 1)...selectedBeats.count {
+                selectedBeats[beat] = nil
+            }
         }
     }
     
@@ -82,28 +75,25 @@ class BeatLightsViewModel: ObservableObject {
     
     // MARK: - Number
     func getNumberOfRows() {
-        numberOfRows = size.rawValue > 4 ? 2 : 1
-        print(numberOfRows.formatted())
+        numberOfRows = metronome.size.rawValue > 4 ? 2 : 1
     }
-    
+
     func getNumberOfCirclesInRow() {
-        if size.rawValue > 4 {
-            if size.rawValue % 2 == 0 {
-                numberOfCirclesInFirstRow = size.rawValue / 2
-                numberOfCirclesInSecondRow = size.rawValue / 2
+        if metronome.size.rawValue > 4 {
+            if metronome.size.rawValue % 2 == 0 {
+                numberOfCirclesInFirstRow = metronome.size.rawValue / 2
+                numberOfCirclesInSecondRow = metronome.size.rawValue / 2
             } else {
-                numberOfCirclesInFirstRow = (size.rawValue - 1) / 2 + 1
-                numberOfCirclesInSecondRow = (size.rawValue - 1) / 2
+                numberOfCirclesInFirstRow = (metronome.size.rawValue - 1) / 2 + 1
+                numberOfCirclesInSecondRow = (metronome.size.rawValue - 1) / 2
             }
         } else {
-            numberOfCirclesInFirstRow = size.rawValue
+            numberOfCirclesInFirstRow = metronome.size.rawValue
         }
-        print(numberOfCirclesInFirstRow.formatted())
     }
     
     func getNumberOfElements(rowIndex: Int) -> Int {
         let numberOfElements: Int
-        
         if rowIndex == 1 {
             numberOfElements = numberOfCirclesInFirstRow
         } else {
@@ -113,16 +103,6 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     func getIndexForElement(rowIndex: Int, index: Int) -> Int {
-        let indexOfElement: Int
-        
-        if rowIndex == 1 {
-            indexOfElement = index
-        } else {
-            indexOfElement = index + numberOfCirclesInFirstRow
-        }
-        
-//        indexOfElement = rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
-        
-        return indexOfElement
+        rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct MetronomeView: View {
     @EnvironmentObject private var metronome: Metronome
     
-    @StateObject var viewModel = MetronomeViewModel()
+    @StateObject private var viewModel = MetronomeViewModel()
         
     var body: some View {
         ZStack{
@@ -20,12 +20,7 @@ struct MetronomeView: View {
             VStack {
                 Spacer(minLength: 20)
                 
-                BeatLightsView(
-                    viewModel: BeatLightsViewModel(
-                        beat: metronome.beat,
-                        size: viewModel.size
-                    )
-                )
+                BeatLightsView()
                 .environmentObject(metronome)
                 .padding(.bottom)
 
@@ -33,13 +28,14 @@ struct MetronomeView: View {
                     
                     VStack(spacing: 1) {
                         SizePickerView(
-                            size: $viewModel.size,
-                            metronome: metronome
+                            size: $metronome.size
                         )
+                        .environmentObject(metronome)
+                        
                         RhythmPicker(
-                            subdivision: $viewModel.subdivision,
-                            metronome: metronome
+                            subdivision: $metronome.subdivision
                         )
+                        .environmentObject(metronome)
                     }
                     .padding(.leading, 20)
                     
@@ -53,13 +49,11 @@ struct MetronomeView: View {
                 }
                 
                 ControlWheelView(
-                    tempo: $viewModel.tempo,
+                    tempo: $metronome.tempo,
                     bigCircleDiameter: viewModel.bigCircleDiameter,
-                    startMetronome: viewModel.startButtonWasTapped
+//                    startMetronome: viewModel.startButtonWasTapped
+                    startMetronome: metronome.buttonWasTapped
                 )
-                .onChange(of: viewModel.tempo) { newValue in
-                    metronome.tempo = viewModel.tempo
-                }
                 
                 Spacer(minLength: 50)
             }
@@ -68,16 +62,6 @@ struct MetronomeView: View {
             viewModel.metronome = metronome
         }
     }
-    
-//    private func startButtonWasTapped() {
-//        metronome.buttonWasTapped(
-//            tempo: viewModel.tempo,
-//            size: viewModel.size.rawValue,
-//            subdivision: viewModel.subdivision.rawValue
-//        )
-//        metronome.size = viewModel.size.rawValue
-//        metronome.subdivision = viewModel.subdivision.rawValue
-//    }
 }
 
 struct MetronomeView_Previews: PreviewProvider {
@@ -89,11 +73,11 @@ struct MetronomeView_Previews: PreviewProvider {
 
 struct RhythmPicker: View {
 ///    Subdivision picker for now
+    @EnvironmentObject private var metronome: Metronome
+
     @Binding var subdivision: Subdivision
-    
-    var metronome: Metronome
-    
-/// I will change it when i will work on rhythmic patterns
+        
+#warning ("Change it when work with rhythmic patterns will be done!!!!")
     var body: some View {
         Picker("Subdivision", selection: $subdivision) {
             Image("HalfNote")
@@ -129,22 +113,11 @@ struct RhythmPicker: View {
 }
 
 struct SizePickerView: View {
+    @EnvironmentObject private var metronome: Metronome
 
     @Binding var size: Size
-//    @Binding var subdivision: Subdivision
-
-    var metronome: Metronome
-
+    
     var body: some View {
-//        Picker("Beat", selection: $size) {
-//            Text(Size.two.rawValue.formatted()).tag(Size.two)
-//            Text(Size.three.rawValue.formatted()).tag(Size.three)
-//            Text(Size.four.rawValue.formaztted()).tag(Size.four)
-//            Text(Size.five.rawValue.formatted()).tag(Size.five)
-//            Text(Size.six.rawValue.formatted()).tag(Size.six)
-//            Text(Size.seven.rawValue.formatted()).tag(Size.seven)
-//            Text(Size.eight.rawValue.formatted()).tag(Size.eight)
-//        }
         Picker("Beat", selection: $size) {
             ForEach(Size.allCases) { size in
                 Text(String(describing: size.rawValue)).tag(size)
@@ -156,7 +129,6 @@ struct SizePickerView: View {
         .cornerRadius(20)
         .onChange(of: size) { newValue in
             metronome.size = size
-            print(metronome.size.rawValue.formatted())
         }
     }
 

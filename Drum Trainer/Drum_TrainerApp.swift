@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct Drum_TrainerApp: App {
-    @StateObject var metronome = Metronome()
+    @ObservedObject var metronome = Metronome()
     
     var body: some Scene {
         WindowGroup {

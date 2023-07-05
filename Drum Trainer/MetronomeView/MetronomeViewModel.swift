@@ -8,10 +8,6 @@
 import SwiftUI
 
 class MetronomeViewModel: ObservableObject {
-
-    var tempo = 80.0
-    var size: Size = .four
-    var subdivision: Subdivision = .quarter
     
     var metronome = Metronome()
     
@@ -19,12 +15,6 @@ class MetronomeViewModel: ObservableObject {
     let bigCircleDiameter: CGFloat = 350
   
     func startButtonWasTapped() {
-        metronome.buttonWasTapped(
-            tempo: tempo,
-            size: size.rawValue,
-            subdivision: subdivision.rawValue
-        )
-        metronome.size = size
-        metronome.subdivision = subdivision
+        metronome.buttonWasTapped()
     }
 }

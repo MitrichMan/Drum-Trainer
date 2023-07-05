@@ -6,26 +6,32 @@
 //
 
 import Combine
-import AVFoundation
 import UIKit
 
 class Metronome: ObservableObject {
     let objectWillChange = PassthroughSubject<Metronome, Never>()
     
-    var beatSelection: BeatSelection = .accent
-    var beat = 0
-    var size: Size = .four
-    var subdivision: Subdivision = .quarter
-    
-    var timeUnit = 0
-    var tempo = 80.0 {
+    @Published var beat = 0
+    @Published var size: Size = .four {
         didSet {
+            objectWillChange.send(self)
+        }
+    }
+    @Published var subdivision: Subdivision = .quarter
+    @Published var tempo = 80.0 {
+        didSet {
+            objectWillChange.send(self)
+
             if player.player?.isPlaying == true {
                 killMetronome()
-                startMetronome(tempo: tempo, subdivision: subdivision.rawValue)
+                startMetronome()
             }
         }
     }
+    
+    var beatSelection: BeatSelection = .accent
+    
+    private var timeUnit = 0
     
     private let player = SoundPlayer()
     private var metronome: Timer?
@@ -34,10 +40,10 @@ class Metronome: ObservableObject {
     private var wasPlayed = false
     
     // MARK: - Interface
-    func buttonWasTapped(tempo: Double, size: Int, subdivision: Int) {
+    func buttonWasTapped() {
         if !isPlaying {
             isPlaying.toggle()
-            startMetronome(tempo: tempo, subdivision: subdivision)
+            startMetronome()
             metronomeActions()
         } else {
             isPlaying.toggle()
@@ -52,16 +58,14 @@ class Metronome: ObservableObject {
     
     // MARK: - Metronome methods
     @objc private func metronomeActions() {
-        //        player.playSound()
         playSound()
         setUpBeats()
         objectWillChange.send(self)
     }
     
-    private func startMetronome(tempo: Double, subdivision: Int) {
+    private func startMetronome() {
         metronome = Timer.scheduledTimer(
-            //            timeInterval: setInterval(tempo: tempo, subdivision: subdivision),
-            timeInterval: setBaseInterval(tempo: tempo),
+            timeInterval: setBaseInterval(),
             target: self,
             selector: #selector(metronomeActions),
             userInfo: nil,
@@ -75,11 +79,7 @@ class Metronome: ObservableObject {
     }
     
     // MARK: - Time
-    private func setInterval(tempo: Double, subdivision: Int) -> Double {
-        60 / tempo
-    }
-    
-    private func setBaseInterval(tempo: Double) -> Double {
+    private func setBaseInterval() -> Double {
         60 / (tempo * 16)
     }
     
@@ -102,6 +102,8 @@ class Metronome: ObservableObject {
                 } else {
                     beat += 1
                 }
+            } else if beat >= size.rawValue {
+                beat = 1
             }
         }
     }
