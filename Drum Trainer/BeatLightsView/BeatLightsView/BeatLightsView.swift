@@ -79,8 +79,6 @@ struct BeatLightsView: View {
             viewModel.deInitUnusedBeats()
             viewModel.setUpBeatSelection()
         }
-//        .onChange(of: size) { _ in
-//        }
     }
     
 //   // MARK: - Selection
@@ -184,10 +182,10 @@ struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
         BeatLightsView(
             viewModel: BeatLightsViewModel(
-//                metronome: Metronome(),
                 beat: 3,
                 size: .four
             )
         )
+        .environmentObject(Metronome())
     }
 }

@@ -8,16 +8,14 @@
 import SwiftUI
 
 class MetronomeViewModel: ObservableObject {
-//    @StateObject var metronome = Metronome()
-//    @EnvironmentObject var metronome: Metronome
+
+    var tempo = 80.0
+    var size: Size = .four
+    var subdivision: Subdivision = .quarter
+    
     var metronome = Metronome()
     
-    @Published var tempo = 80.0
-    @Published var size: Size = .four
-    @Published var subdivision: Subdivision = .quarter
-    
     let backgroundColor = UIColor(named: "BackgroundColor") ?? .systemGray5
-    
     let bigCircleDiameter: CGFloat = 350
   
     func startButtonWasTapped() {

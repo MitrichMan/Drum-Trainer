@@ -21,14 +21,6 @@ class BeatLightsViewModel: ObservableObject {
     var beat: Int
     var size: Size
     
-//    private let metronome: Metronome
-    
-//    init(metronome: Metronome, beat: Int, size: Size) {
-//        self.metronome = metronome
-//        self.beat = beat
-//        self.size = size
-//    }
-    
     init(beat: Int, size: Size) {
         self.beat = beat
         self.size = size
@@ -123,13 +115,13 @@ class BeatLightsViewModel: ObservableObject {
     func getIndexForElement(rowIndex: Int, index: Int) -> Int {
         let indexOfElement: Int
         
-//        if rowIndex == 1 {
-//            indexOfElement = index
-//        } else {
-//            indexOfElement = index + numberOfCirclesInFirstRow
-//        }
+        if rowIndex == 1 {
+            indexOfElement = index
+        } else {
+            indexOfElement = index + numberOfCirclesInFirstRow
+        }
         
-        indexOfElement = rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
+//        indexOfElement = rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
         
         return indexOfElement
     }
