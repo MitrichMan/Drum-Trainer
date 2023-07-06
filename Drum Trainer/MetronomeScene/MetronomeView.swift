@@ -21,7 +21,6 @@ struct MetronomeView: View {
                 Spacer(minLength: 20)
                 
                 BeatLightsView()
-                .environmentObject(metronome)
                 .padding(.bottom)
 
                 HStack {
@@ -30,12 +29,12 @@ struct MetronomeView: View {
                         SizePickerView(
                             size: $metronome.size
                         )
-                        .environmentObject(metronome)
+
                         
                         RhythmPicker(
                             subdivision: $metronome.subdivision
                         )
-                        .environmentObject(metronome)
+
                     }
                     .padding(.leading, 20)
                     
@@ -72,9 +71,11 @@ struct MetronomeView_Previews: PreviewProvider {
     }
 }
 
-struct RhythmPicker: View {
 //    Subdivision picker for now
+struct RhythmPicker: View {
     @EnvironmentObject private var metronome: Metronome
+    @EnvironmentObject private var settingsModel: DataManager
+
 
     @Binding var subdivision: Subdivision
         
@@ -114,6 +115,7 @@ struct RhythmPicker: View {
 
 struct SizePickerView: View {
     @EnvironmentObject private var metronome: Metronome
+    @EnvironmentObject private var settingsModel: DataManager
 
     @Binding var size: Size
     

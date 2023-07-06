@@ -9,13 +9,8 @@ import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
     
-    @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]
-    
-    @Published var numberOfRows = 1
-    @Published var numberOfCirclesInFirstRow = 4
-    @Published var numberOfCirclesInSecondRow = 0
-    
-    @Published var metronome = Metronome()
+    var metronome = Metronome()
+    var settingsModel = DataManager()
     
     // MARK: - Selection
     func setUpBeatSelection() {
@@ -74,35 +69,22 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     // MARK: - Number
-    func getNumberOfRows() {
-        numberOfRows = metronome.size.rawValue > 4 ? 2 : 1
+    func getNumberOfRows(size: Int) -> Int {
+        size > 4 ? 2 : 1
     }
-
-    func getNumberOfCirclesInRow() {
-        if metronome.size.rawValue > 4 {
-            if metronome.size.rawValue % 2 == 0 {
-                numberOfCirclesInFirstRow = metronome.size.rawValue / 2
-                numberOfCirclesInSecondRow = metronome.size.rawValue / 2
+    
+    func getNumberOfCirclesInRow(size: Int, rowIndex: Int) -> Int {
+        if size > 4 {
+            if size % 2 == 0 {
+                return size / 2
             } else {
-                numberOfCirclesInFirstRow = (metronome.size.rawValue - 1) / 2 + 1
-                numberOfCirclesInSecondRow = (metronome.size.rawValue - 1) / 2
+                return rowIndex == 1 ?  (size - 1) / 2 + 1 : (size - 1) / 2
             }
-        } else {
-            numberOfCirclesInFirstRow = metronome.size.rawValue
         }
+        return size
     }
     
-    func getNumberOfElements(rowIndex: Int) -> Int {
-        let numberOfElements: Int
-        if rowIndex == 1 {
-            numberOfElements = numberOfCirclesInFirstRow
-        } else {
-            numberOfElements = numberOfCirclesInSecondRow
-        }
-        return numberOfElements
-    }
-    
-    func getIndexForElement(rowIndex: Int, index: Int) -> Int {
-        rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
+    func getIndexForElement(rowIndex: Int, index: Int, size: Int) -> Int {
+        rowIndex == 1 ? index : index + getNumberOfCirclesInRow(size: size, rowIndex: 1)
     }
 }

@@ -9,24 +9,26 @@ import Combine
 import UIKit
 
 class Metronome: ObservableObject {
-    let objectWillChange = PassthroughSubject<Metronome, Never>()
+//    let objectWillChange = PassthroughSubject<Metronome, Never>()
+    let objectWillChange = ObservableObjectPublisher()
+
     
-    @Published var beat = 0
-    @Published var subdivision: Subdivision = .quarter {
+    var beat = 0
+    var subdivision: Subdivision = .quarter {
         didSet {
             wasPlayed = beat % 2 == 0 ? false : true
         }
     }
     
-    @Published var size: Size = .four {
+     var size: Size = .four {
         didSet {
-            objectWillChange.send(self)
+            objectWillChange.send()
         }
     }
     
-    @Published var tempo = 80.0 {
+    var tempo = 80.0 {
         didSet {
-            objectWillChange.send(self)
+            objectWillChange.send()
 
             if player.player?.isPlaying == true {
                 killMetronome()
@@ -35,9 +37,9 @@ class Metronome: ObservableObject {
         }
     }
     
-    @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]  {
+    var selectedBeats: [Int: BeatSelection] = [1: .accent]  {
         didSet {
-            objectWillChange.send(self)
+            objectWillChange.send()
         }
     }
     
@@ -57,11 +59,7 @@ class Metronome: ObservableObject {
     private var metronome: Timer?
     
     private var isPlaying = false
-    private var wasPlayed = false {
-        didSet {
-            print(wasPlayed)
-        }
-    }
+    private var wasPlayed = false
     
     // MARK: - Interface
     func buttonWasTapped() {
@@ -77,14 +75,14 @@ class Metronome: ObservableObject {
             wasPlayed = false
         }
         
-        objectWillChange.send(self)
+        objectWillChange.send()
     }
     
     // MARK: - Metronome methods
     @objc private func metronomeActions() {
         playSound(limeUnit: timeUnit)
         setUpBeats()
-        objectWillChange.send(self)
+        objectWillChange.send()
     }
     
     private func startMetronome() {

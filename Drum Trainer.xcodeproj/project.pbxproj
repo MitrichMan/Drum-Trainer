@@ -99,41 +99,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D4C0BE32A41EEB300CB4842 /* BeatLightsView */ = {
+		4D4C0BE32A41EEB300CB4842 /* BeatLightsScene */ = {
 			isa = PBXGroup;
 			children = (
-				4DBB2CBD2A545BBC00A4F56E /* BeatLightsView */,
+				4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */,
+				4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */,
 				4DA4D71D2A54007600210D1A /* BeatCircleView.swift */,
 				4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */,
 			);
-			path = BeatLightsView;
+			path = BeatLightsScene;
 			sourceTree = "<group>";
 		};
-		4DBB2CBB2A545B8700A4F56E /* ControlCircleView */ = {
+		4DBB2CBB2A545B8700A4F56E /* ControlCircleScene */ = {
 			isa = PBXGroup;
 			children = (
 				4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */,
 				4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */,
 			);
-			path = ControlCircleView;
+			path = ControlCircleScene;
 			sourceTree = "<group>";
 		};
-		4DBB2CBC2A545B9E00A4F56E /* ControlButtonsWiew */ = {
+		4DBB2CBC2A545B9E00A4F56E /* ControlButtonsScene */ = {
 			isa = PBXGroup;
 			children = (
 				4DBB2CB72A545AD300A4F56E /* ControlButtonsView.swift */,
 				4DBB2CB92A545AFE00A4F56E /* ControlButtonsViewModel.swift */,
 			);
-			path = ControlButtonsWiew;
-			sourceTree = "<group>";
-		};
-		4DBB2CBD2A545BBC00A4F56E /* BeatLightsView */ = {
-			isa = PBXGroup;
-			children = (
-				4D4C0BE62A41EF1300CB4842 /* BeatLightsView.swift */,
-				4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */,
-			);
-			path = BeatLightsView;
+			path = ControlButtonsScene;
 			sourceTree = "<group>";
 		};
 		4DC30A372A27716300B34DD4 = {
@@ -160,9 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC30A432A27716300B34DD4 /* Drum_TrainerApp.swift */,
-				4DC30A6D2A27742B00B34DD4 /* MetronomeView */,
-				4D4C0BE32A41EEB300CB4842 /* BeatLightsView */,
-				4DF3DB7C2A41CE2E0051260B /* ControlWheelView */,
+				4DC30A6D2A27742B00B34DD4 /* MetronomeScene */,
 				4DC30A702A27774100B34DD4 /* Services */,
 				4DC30A772A28813E00B34DD4 /* Models */,
 				4DC30A472A27716500B34DD4 /* Assets.xcassets */,
@@ -196,13 +186,15 @@
 			path = "Drum TrainerUITests";
 			sourceTree = "<group>";
 		};
-		4DC30A6D2A27742B00B34DD4 /* MetronomeView */ = {
+		4DC30A6D2A27742B00B34DD4 /* MetronomeScene */ = {
 			isa = PBXGroup;
 			children = (
 				4DC30A6E2A27745500B34DD4 /* MetronomeView.swift */,
 				4DC30A752A2880F300B34DD4 /* MetronomeViewModel.swift */,
+				4D4C0BE32A41EEB300CB4842 /* BeatLightsScene */,
+				4DF3DB7C2A41CE2E0051260B /* ControlWheelScene */,
 			);
-			path = MetronomeView;
+			path = MetronomeScene;
 			sourceTree = "<group>";
 		};
 		4DC30A702A27774100B34DD4 /* Services */ = {
@@ -223,14 +215,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		4DF3DB7C2A41CE2E0051260B /* ControlWheelView */ = {
+		4DF3DB7C2A41CE2E0051260B /* ControlWheelScene */ = {
 			isa = PBXGroup;
 			children = (
 				4DC30A7A2A2883CD00B34DD4 /* ControlWheelView.swift */,
-				4DBB2CBB2A545B8700A4F56E /* ControlCircleView */,
-				4DBB2CBC2A545B9E00A4F56E /* ControlButtonsWiew */,
+				4DBB2CBB2A545B8700A4F56E /* ControlCircleScene */,
+				4DBB2CBC2A545B9E00A4F56E /* ControlButtonsScene */,
 			);
-			path = ControlWheelView;
+			path = ControlWheelScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

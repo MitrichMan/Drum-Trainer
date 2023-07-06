@@ -5,6 +5,8 @@
 //  Created by Dmitrii Melnikov on 01.06.2023.
 //
 
+// CRUD!!!!!!!!!!!
+
 struct MetronomeSettings {
     var size: Size
     var beat: Int
@@ -21,6 +23,8 @@ struct MetronomeSettings {
     }
     
 }
+
+
 
 enum Size: Int, CaseIterable, Identifiable {
     case two = 2
