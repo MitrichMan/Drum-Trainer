@@ -9,8 +9,8 @@ import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
     
-    var metronome = Metronome()
-    var settingsModel = DataManager()
+    @ObservedObject var metronome = Metronome()
+    @ObservedObject var dataManager = DataManager()
     
     // MARK: - Selection
     func setUpBeatSelection() {

@@ -92,8 +92,6 @@ struct BeatLightsView: View {
         }
         
         .onChange(of: metronome.size) { _ in
-//            viewModel.getNumberOfRows()
-//            viewModel.getNumberOfCirclesInRow()
             viewModel.deInitUnusedBeats()
             viewModel.setUpBeatSelection()
         }

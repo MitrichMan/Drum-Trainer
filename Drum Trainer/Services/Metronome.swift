@@ -6,13 +6,12 @@
 //
 
 import Combine
-import UIKit
+import SwiftUI
 
 class Metronome: ObservableObject {
-//    let objectWillChange = PassthroughSubject<Metronome, Never>()
-    let objectWillChange = ObservableObjectPublisher()
-
+    @EnvironmentObject private var dataManager: DataManager
     
+    let objectWillChange = ObservableObjectPublisher()
     var beat = 0
     var subdivision: Subdivision = .quarter {
         didSet {
@@ -22,6 +21,7 @@ class Metronome: ObservableObject {
     
      var size: Size = .four {
         didSet {
+            wasPlayed = beat % 2 == 0 ? false : true
             objectWillChange.send()
         }
     }
@@ -45,13 +45,11 @@ class Metronome: ObservableObject {
     
     var beatSelection: BeatSelection = .accent
     
-    var settings: MetronomeSettings = MetronomeSettings(
-        size: .four,
-        beat: 0,
-        tempo: 80,
-        subdivision: .quarter,
-        selectedBeats: [1: .accent]
-    )
+    var settingsIdDefault = "Default"
+    
+    var defaultSettings: MetronomeSettings {
+        dataManager.defaultSettings
+    }
     
     private var timeUnit = 0
     
@@ -59,7 +57,7 @@ class Metronome: ObservableObject {
     private var metronome: Timer?
     
     private var isPlaying = false
-    private var wasPlayed = false
+    private var wasPlayed =  false
     
     // MARK: - Interface
     func buttonWasTapped() {

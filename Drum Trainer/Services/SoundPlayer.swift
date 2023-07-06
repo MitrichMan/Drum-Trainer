@@ -24,7 +24,6 @@ class SoundPlayer {
         }
     }
     
-    
     private func soundChoice(beat: BeatSelection) -> String {
         switch beat {
         case .accent:

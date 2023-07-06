@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MetronomeView: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var settingsModel: DataManager
+    @EnvironmentObject private var dataManager: DataManager
     @StateObject private var viewModel = MetronomeViewModel()
         
     var body: some View {
@@ -26,14 +26,9 @@ struct MetronomeView: View {
                 HStack {
                     
                     VStack(spacing: 1) {
-                        SizePickerView(
-                            size: $metronome.size
-                        )
-
+                        SizePickerView()
                         
-                        RhythmPicker(
-                            subdivision: $metronome.subdivision
-                        )
+                        RhythmPicker()
 
                     }
                     .padding(.leading, 20)
@@ -58,7 +53,6 @@ struct MetronomeView: View {
         }
         .onAppear {
             viewModel.metronome = metronome
-            metronome.settings = settingsModel.settings
         }
     }
 }
@@ -74,14 +68,13 @@ struct MetronomeView_Previews: PreviewProvider {
 //    Subdivision picker for now
 struct RhythmPicker: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var settingsModel: DataManager
-
-
-    @Binding var subdivision: Subdivision
-        
-// Change it when work with rhythmic patterns will be done!!!!
+    @EnvironmentObject private var dataManager: DataManager
+    
+    // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
-        Picker("Subdivision", selection: $subdivision) {
+                Picker("Subdivision", selection: $metronome.subdivision) {
+//        Picker("Subdivision", selection: $dataManager.defaultSettings.subdivision) {
+            
             Image("HalfNote")
                 .resizable()
                 .foregroundColor(.red)
@@ -107,20 +100,15 @@ struct RhythmPicker: View {
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
-        .onChange(of: subdivision) { _ in
-            metronome.subdivision = subdivision
-        }
     }
 }
 
 struct SizePickerView: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var settingsModel: DataManager
-
-    @Binding var size: Size
+    @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
-        Picker("Beat", selection: $size) {
+        Picker("Beat", selection: $metronome.size) {
             ForEach(Size.allCases) { size in
                 Text(String(describing: size.rawValue)).tag(size)
             }
@@ -129,10 +117,6 @@ struct SizePickerView: View {
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
-        .onChange(of: size) { _ in
-            metronome.size = size
-        }
     }
-
 }
 

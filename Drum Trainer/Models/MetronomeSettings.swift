@@ -7,23 +7,37 @@
 
 // CRUD!!!!!!!!!!!
 
-struct MetronomeSettings {
+struct MetronomeSettings: Identifiable {
+    var id: String
+    var name: String
     var size: Size
     var beat: Int
     var tempo: Double
     var subdivision: Subdivision
     var selectedBeats: [Int: BeatSelection]
     
-    init(size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
+    init(name: String, size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
+        id = name
+        self.name = name
         self.size = size
         self.beat = beat
         self.tempo = tempo
         self.subdivision = subdivision
         self.selectedBeats = selectedBeats
     }
-    
 }
 
+extension MetronomeSettings {
+    static var defaultSettings: MetronomeSettings =
+    MetronomeSettings(
+        name: "Default",
+        size: .four,
+        beat: 0,
+        tempo: 80,
+        subdivision: .quarter,
+        selectedBeats: [1 : .accent]
+    )
+}
 
 
 enum Size: Int, CaseIterable, Identifiable {
@@ -38,11 +52,13 @@ enum Size: Int, CaseIterable, Identifiable {
     var id: Self { self }
 }
 
-enum Subdivision: Int {
+enum Subdivision: Int, CaseIterable, Identifiable  {
     case half = 2
     case quarter = 4
     case eighth = 8
     case sixteenth = 16
+    
+    var id: Self { self }
 }
 
 enum BeatSelection {
