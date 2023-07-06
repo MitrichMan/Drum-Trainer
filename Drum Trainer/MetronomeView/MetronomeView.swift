@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MetronomeView: View {
     @EnvironmentObject private var metronome: Metronome
+    @EnvironmentObject private var settingsModel: DataManager
     @StateObject private var viewModel = MetronomeViewModel()
         
     var body: some View {
@@ -58,6 +59,7 @@ struct MetronomeView: View {
         }
         .onAppear {
             viewModel.metronome = metronome
+            metronome.settings = settingsModel.settings
         }
     }
 }
@@ -66,6 +68,7 @@ struct MetronomeView_Previews: PreviewProvider {
     static var previews: some View {
         MetronomeView()
             .environmentObject(Metronome())
+            .environmentObject(DataManager())
     }
 }
 
@@ -103,9 +106,8 @@ struct RhythmPicker: View {
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
-        .onChange(of: subdivision) { newValue in
+        .onChange(of: subdivision) { _ in
             metronome.subdivision = subdivision
-        
         }
     }
 }
@@ -125,7 +127,7 @@ struct SizePickerView: View {
         .frame(width: 100, height: 50)
         .background(.white)
         .cornerRadius(20)
-        .onChange(of: size) { newValue in
+        .onChange(of: size) { _ in
             metronome.size = size
         }
     }

@@ -17,7 +17,7 @@ class SoundPlayer {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             player = try AVAudioPlayer(data: url)
-            guard let player = player else { return }
+            guard let player else { return }
             player.play()
         } catch let error {
             print(error.localizedDescription)

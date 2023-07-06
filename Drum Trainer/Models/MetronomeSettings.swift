@@ -6,21 +6,20 @@
 //
 
 struct MetronomeSettings {
-    var metronome: Metronome
     var size: Size
     var beat: Int
     var tempo: Double
     var subdivision: Subdivision
     var selectedBeats: [Int: BeatSelection]
     
-    init(metronome: Metronome, size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
-        self.metronome = metronome
+    init(size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
         self.size = size
         self.beat = beat
         self.tempo = tempo
         self.subdivision = subdivision
         self.selectedBeats = selectedBeats
     }
+    
 }
 
 enum Size: Int, CaseIterable, Identifiable {

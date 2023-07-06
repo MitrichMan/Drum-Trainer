@@ -27,7 +27,7 @@ struct BeatLightsView: View {
                             
                             ZStack {
                                 AccentNimbusView(
-                                    beatSelection: viewModel.selectedBeats[
+                                    beatSelection: metronome.selectedBeats[
                                         viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index
@@ -74,9 +74,9 @@ struct BeatLightsView: View {
         }
         .onAppear {
             viewModel.metronome = metronome
-            viewModel.getNumberOfRows()
-            viewModel.getNumberOfCirclesInRow()
-            viewModel.deInitUnusedBeats()
+//            viewModel.getNumberOfRows()
+//            viewModel.getNumberOfCirclesInRow()
+//            viewModel.deInitUnusedBeats()
             viewModel.setUpBeatSelection()
         }
         

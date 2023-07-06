@@ -20,28 +20,28 @@ class BeatLightsViewModel: ObservableObject {
     // MARK: - Selection
     func setUpBeatSelection() {
         for beat in 2...metronome.size.rawValue {
-            if selectedBeats[beat] == nil {
-                selectedBeats[beat] = .weak
+            if metronome.selectedBeats[beat] == nil {
+                metronome.selectedBeats[beat] = .weak
             }
         }
     }
     
     func deInitUnusedBeats() {
-        if selectedBeats.count > metronome.size.rawValue {
-            for beat in (metronome.size.rawValue + 1)...selectedBeats.count {
-                selectedBeats[beat] = nil
+        if metronome.selectedBeats.count > metronome.size.rawValue {
+            for beat in (metronome.size.rawValue + 1)...metronome.selectedBeats.count {
+                metronome.selectedBeats[beat] = nil
             }
         }
     }
     
     func selectBeats(from index: Int) {
-        switch selectedBeats[index] {
+        switch metronome.selectedBeats[index] {
         case .accent:
-            selectedBeats[index] = .ghost
+            metronome.selectedBeats[index] = .ghost
         case .weak:
-            selectedBeats[index] = .accent
+            metronome.selectedBeats[index] = .accent
         default:
-            selectedBeats[index] = .weak
+            metronome.selectedBeats[index] = .weak
         }
     }
     
@@ -50,7 +50,7 @@ class BeatLightsViewModel: ObservableObject {
         let color: Color
         
         if beat == index {
-            switch selectedBeats[index] {
+            switch metronome.selectedBeats[index] {
             case .accent:
                 color = .green
                 metronome.beatSelection = .accent
@@ -69,7 +69,7 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     func setUpCircleAppearance(index: Int) -> Double {
-        let diameterOfCircle = selectedBeats[index] == .ghost ? 16.0 : 40.0
+        let diameterOfCircle = metronome.selectedBeats[index] == .ghost ? 16.0 : 40.0
         return diameterOfCircle
     }
     

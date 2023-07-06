@@ -12,12 +12,18 @@ class Metronome: ObservableObject {
     let objectWillChange = PassthroughSubject<Metronome, Never>()
     
     @Published var beat = 0
+    @Published var subdivision: Subdivision = .quarter {
+        didSet {
+            wasPlayed = beat % 2 == 0 ? false : true
+        }
+    }
+    
     @Published var size: Size = .four {
         didSet {
             objectWillChange.send(self)
         }
     }
-    @Published var subdivision: Subdivision = .quarter
+    
     @Published var tempo = 80.0 {
         didSet {
             objectWillChange.send(self)
@@ -29,7 +35,21 @@ class Metronome: ObservableObject {
         }
     }
     
+    @Published var selectedBeats: [Int: BeatSelection] = [1: .accent]  {
+        didSet {
+            objectWillChange.send(self)
+        }
+    }
+    
     var beatSelection: BeatSelection = .accent
+    
+    var settings: MetronomeSettings = MetronomeSettings(
+        size: .four,
+        beat: 0,
+        tempo: 80,
+        subdivision: .quarter,
+        selectedBeats: [1: .accent]
+    )
     
     private var timeUnit = 0
     
@@ -37,7 +57,11 @@ class Metronome: ObservableObject {
     private var metronome: Timer?
     
     private var isPlaying = false
-    private var wasPlayed = false
+    private var wasPlayed = false {
+        didSet {
+            print(wasPlayed)
+        }
+    }
     
     // MARK: - Interface
     func buttonWasTapped() {
@@ -58,7 +82,7 @@ class Metronome: ObservableObject {
     
     // MARK: - Metronome methods
     @objc private func metronomeActions() {
-        playSound()
+        playSound(limeUnit: timeUnit)
         setUpBeats()
         objectWillChange.send(self)
     }
@@ -108,32 +132,33 @@ class Metronome: ObservableObject {
         }
     }
     
-    private func playSound() {
-        if subdivision.rawValue == 2 {
-            if timeUnit == 1 {
-                if wasPlayed == false {
-                    player.playSound(beat: beatSelection)
-                    wasPlayed = true
-                } else {
-                    wasPlayed = false
-                }
+    // MARK: - Play Sound
+    private func playSound(limeUnit: Int) {
+        let unitsToPlay = divideTimeUnitSequence(subdivision: subdivision.rawValue)
+        
+        for unit in unitsToPlay where timeUnit == unit {
+            let beat: BeatSelection = unit == 1 ? beatSelection : .weak
+            
+            if unit != 1 || subdivision.rawValue != 2 || !wasPlayed {
+                player.playSound(beat: beat)
             }
-        } else if subdivision.rawValue == 4 {
-            if timeUnit == 1 {
-                player.playSound(beat: beatSelection)
-            }
-        } else if subdivision.rawValue == 8 {
-            if timeUnit == 1 {
-                player.playSound(beat: beatSelection)
-            } else if timeUnit == 9 {
-                player.playSound(beat: .weak)
-            }
-        } else if subdivision.rawValue == 16 {
-            if timeUnit == 1 {
-                player.playSound(beat: beatSelection)
-            } else if timeUnit == 5 || timeUnit == 9 || timeUnit == 13 {
-                player.playSound(beat: .weak)
+            
+            if unit == 1 && subdivision.rawValue == 2 {
+                wasPlayed.toggle()
             }
         }
+    }
+    
+    private func divideTimeUnitSequence(subdivision: Int) -> [Int] {
+        guard subdivision != 2 else { return [1] }
+        
+        var beatsToPlay: [Int] = []
+        var timeUnit = 1
+        
+        while timeUnit < 16 {
+            beatsToPlay.append(timeUnit)
+            timeUnit += 16 / (subdivision / 4)
+        }
+        return beatsToPlay
     }
 }
