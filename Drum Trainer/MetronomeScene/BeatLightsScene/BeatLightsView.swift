@@ -24,7 +24,7 @@ struct BeatLightsView: View {
                     )),
                     id: \.self
                 ) { rowIndex in
-                    
+                
                     HStack {
                         ForEach(
                             (1...viewModel.getNumberOfCirclesInRow(
@@ -91,7 +91,7 @@ struct BeatLightsView: View {
             viewModel.setUpBeatSelection()
         }
         
-        .onChange(of: metronome.defaultSettings.size) { _ in
+        .onChange(of: metronome.defaultSettings.size) { newValue in
             viewModel.deInitUnusedBeats()
             viewModel.setUpBeatSelection()
         }

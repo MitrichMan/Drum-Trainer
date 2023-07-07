@@ -51,8 +51,17 @@ struct MetronomeView: View {
                 
                 Spacer()
                 
-                Text(metronome.beat.formatted())
-                    .font(.largeTitle)
+                HStack {
+                    Text(metronome.beat.formatted())
+                        .font(.largeTitle)
+                    
+                    Text(metronome.defaultSettings.beat.formatted())
+                    
+                    Button("start") {
+                        metronome.defaultSettings.beat += 1
+                        print(metronome.defaultSettings.beat.formatted())
+                    }
+                }
                 
                 Spacer()
                 
@@ -84,7 +93,6 @@ struct MetronomeView_Previews: PreviewProvider {
 //    Subdivision picker for now
 struct RhythmPicker: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var dataManager: DataManager
     
     // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
@@ -120,7 +128,6 @@ struct RhythmPicker: View {
 
 struct SizePickerView: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
         Picker("Beat", selection: $metronome.defaultSettings.size) {

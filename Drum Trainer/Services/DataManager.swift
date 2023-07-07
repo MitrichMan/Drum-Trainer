@@ -6,23 +6,11 @@
 //
 
 import Foundation
-import Combine
 
-class DataManager: ObservableObject {
+class DataManager {
     static let shared = DataManager()
+
     
-    var defaultSettings = MetronomeSettings(
-        name: "",
-        size: .four,
-        beat: 0,
-        tempo: 80,
-        subdivision: .quarter,
-        selectedBeats: [1: .accent],
-        beatSelection: .accent
-    )
-    
-    
-    let objectWillChange = ObservableObjectPublisher()
     
     private init () {}
     

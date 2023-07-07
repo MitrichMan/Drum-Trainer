@@ -10,7 +10,7 @@ import Combine
 
 class BeatLightsViewModel: ObservableObject {
     @ObservedObject var metronome = Metronome()
-    
+        
     // MARK: - Selection
     func setUpBeatSelection() {
         for beat in 2...metronome.defaultSettings.size.rawValue {

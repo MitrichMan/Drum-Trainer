@@ -9,11 +9,8 @@ import Combine
 import SwiftUI
 
 class Metronome: ObservableObject {    
-    @Published var defaultSettings = DataManager.shared.defaultSettings {
-        didSet {
-//            objectWillChange.send()
-        }
-    }
+    
+    @Published var defaultSettings: MetronomeSettings = MetronomeSettings.getDefaultSettings()
     
     let objectWillChange = ObservableObjectPublisher()
     
