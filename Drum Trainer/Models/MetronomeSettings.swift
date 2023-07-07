@@ -12,11 +12,12 @@ struct MetronomeSettings: Identifiable {
     var name: String
     var size: Size
     var beat: Int
-    var tempo: Double
+    var tempo: Double 
     var subdivision: Subdivision
     var selectedBeats: [Int: BeatSelection]
+    var beatSelection: BeatSelection
     
-    init(name: String, size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection]) {
+    init(name: String, size: Size, beat: Int, tempo: Double, subdivision: Subdivision, selectedBeats: [Int : BeatSelection],  beatSelection: BeatSelection) {
         id = name
         self.name = name
         self.size = size
@@ -24,18 +25,19 @@ struct MetronomeSettings: Identifiable {
         self.tempo = tempo
         self.subdivision = subdivision
         self.selectedBeats = selectedBeats
+        self.beatSelection = beatSelection
     }
 }
 
 extension MetronomeSettings {
-    static var defaultSettings: MetronomeSettings =
-    MetronomeSettings(
-        name: "Default",
+    static var defaultSettings = MetronomeSettings(
+        name: "DefaultAppSettings",
         size: .four,
         beat: 0,
         tempo: 80,
         subdivision: .quarter,
-        selectedBeats: [1 : .accent]
+        selectedBeats: [1 : .accent],
+        beatSelection: .accent
     )
 }
 

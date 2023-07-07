@@ -8,35 +8,37 @@
 import SwiftUI
 
 class BeatLightsViewModel: ObservableObject {
+//    @EnvironmentObject private var metronome: Metronome
+//    @EnvironmentObject private var dataManager: DataManager
     
     @ObservedObject var metronome = Metronome()
     @ObservedObject var dataManager = DataManager()
     
     // MARK: - Selection
     func setUpBeatSelection() {
-        for beat in 2...metronome.size.rawValue {
-            if metronome.selectedBeats[beat] == nil {
-                metronome.selectedBeats[beat] = .weak
+        for beat in 2...dataManager.defaultSettings.size.rawValue {
+            if dataManager.defaultSettings.selectedBeats[beat] == nil {
+                dataManager.defaultSettings.selectedBeats[beat] = .weak
             }
         }
     }
     
     func deInitUnusedBeats() {
-        if metronome.selectedBeats.count > metronome.size.rawValue {
-            for beat in (metronome.size.rawValue + 1)...metronome.selectedBeats.count {
-                metronome.selectedBeats[beat] = nil
+        if dataManager.defaultSettings.selectedBeats.count > dataManager.defaultSettings.size.rawValue {
+            for beat in (dataManager.defaultSettings.size.rawValue + 1)...dataManager.defaultSettings.selectedBeats.count {
+                dataManager.defaultSettings.selectedBeats[beat] = nil
             }
         }
     }
     
     func selectBeats(from index: Int) {
-        switch metronome.selectedBeats[index] {
+        switch dataManager.defaultSettings.selectedBeats[index] {
         case .accent:
-            metronome.selectedBeats[index] = .ghost
+            dataManager.defaultSettings.selectedBeats[index] = .ghost
         case .weak:
-            metronome.selectedBeats[index] = .accent
+            dataManager.defaultSettings.selectedBeats[index] = .accent
         default:
-            metronome.selectedBeats[index] = .weak
+            dataManager.defaultSettings.selectedBeats[index] = .weak
         }
     }
     
@@ -45,16 +47,16 @@ class BeatLightsViewModel: ObservableObject {
         let color: Color
         
         if beat == index {
-            switch metronome.selectedBeats[index] {
+            switch dataManager.defaultSettings.selectedBeats[index] {
             case .accent:
                 color = .green
-                metronome.beatSelection = .accent
+                dataManager.defaultSettings.beatSelection = .accent
             case .weak:
                 color = .red
-                metronome.beatSelection = .weak
+                dataManager.defaultSettings.beatSelection = .weak
             default:
                 color = .yellow
-                metronome.beatSelection = .ghost
+                dataManager.defaultSettings.beatSelection = .ghost
             }
         } else {
             color = Color("BackgroundColor")
@@ -64,7 +66,7 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     func setUpCircleAppearance(index: Int) -> Double {
-        let diameterOfCircle = metronome.selectedBeats[index] == .ghost ? 16.0 : 40.0
+        let diameterOfCircle = dataManager.defaultSettings.selectedBeats[index] == .ghost ? 16.0 : 40.0
         return diameterOfCircle
     }
     

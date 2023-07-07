@@ -17,6 +17,9 @@ struct Drum_TrainerApp: App {
             MetronomeView()
                 .environmentObject(metronome)
                 .environmentObject(dataManager)
+                .onAppear{
+                    metronome.dataManager = dataManager
+                }
         }
     }
 }

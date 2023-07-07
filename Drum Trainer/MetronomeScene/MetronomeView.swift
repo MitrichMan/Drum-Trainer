@@ -43,7 +43,7 @@ struct MetronomeView: View {
                 }
                 
                 ControlWheelView(
-                    tempo: $metronome.tempo,
+                    tempo: $dataManager.defaultSettings.tempo,
                     bigCircleDiameter: viewModel.bigCircleDiameter,
                     startMetronome: metronome.buttonWasTapped
                 )
@@ -53,6 +53,9 @@ struct MetronomeView: View {
         }
         .onAppear {
             viewModel.metronome = metronome
+            viewModel.dataManager = dataManager
+            #warning("Next is only for work with canvas. Delete when finish work!")
+            metronome.dataManager = dataManager
         }
     }
 }
@@ -72,8 +75,7 @@ struct RhythmPicker: View {
     
     // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
-                Picker("Subdivision", selection: $metronome.subdivision) {
-//        Picker("Subdivision", selection: $dataManager.defaultSettings.subdivision) {
+        Picker("Subdivision", selection: $dataManager.defaultSettings.subdivision) {
             
             Image("HalfNote")
                 .resizable()
@@ -108,7 +110,7 @@ struct SizePickerView: View {
     @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
-        Picker("Beat", selection: $metronome.size) {
+        Picker("Beat", selection: $dataManager.defaultSettings.size) {
             ForEach(Size.allCases) { size in
                 Text(String(describing: size.rawValue)).tag(size)
             }
