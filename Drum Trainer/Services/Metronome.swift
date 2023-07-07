@@ -8,23 +8,16 @@
 import Combine
 import SwiftUI
 
-class Metronome: ObservableObject {
-    @ObservedObject var dataManager = DataManager() 
+class Metronome: ObservableObject {    
+    @Published var defaultSettings = DataManager.shared.defaultSettings {
+        didSet {
+//            objectWillChange.send()
+        }
+    }
     
     let objectWillChange = ObservableObjectPublisher()
     
     var beat = 0
-    
-//    var tempo = 80.0 {
-//        didSet {
-//            objectWillChange.send()
-//
-//            if player.player?.isPlaying == true {
-//                killMetronome()
-//                startMetronome()
-//            }
-//        }
-//    }
             
     private var timeUnit = 0
     
@@ -55,16 +48,16 @@ class Metronome: ObservableObject {
     @objc private func metronomeActions() {
         playSound(
             limeUnit: timeUnit,
-            subdivision: dataManager.defaultSettings.subdivision.rawValue,
-            beatSelection: dataManager.defaultSettings.beatSelection
+            subdivision: defaultSettings.subdivision.rawValue,
+            beatSelection: defaultSettings.beatSelection
         )
-        setUpBeats(size: dataManager.defaultSettings.size.rawValue)
+        setUpBeats(size: defaultSettings.size.rawValue)
         objectWillChange.send()
     }
     
     private func startMetronome() {
         metronome = Timer.scheduledTimer(
-            timeInterval: setBaseInterval(tempo: dataManager.defaultSettings.tempo),
+            timeInterval: setBaseInterval(tempo: defaultSettings.tempo),
             target: self,
             selector: #selector(metronomeActions),
             userInfo: nil,

@@ -9,32 +9,24 @@ import Foundation
 import Combine
 
 class DataManager: ObservableObject {
-    var objectWillChange = ObservableObjectPublisher()
+    static let shared = DataManager()
     
-    @Published var defaultSettings = MetronomeSettings.defaultSettings
-//    {
-//        didSet {
-//            objectWillChange.send()
-//        }
-//    }
+    var defaultSettings = MetronomeSettings(
+        name: "",
+        size: .four,
+        beat: 0,
+        tempo: 80,
+        subdivision: .quarter,
+        selectedBeats: [1: .accent],
+        beatSelection: .accent
+    )
     
-//    @Published var defaultSettings = MetronomeSettings(
-//        name: "DefaultAppSettings",
-//        size: .four,
-//        beat: 0,
-//        tempo: 80,
-//        subdivision: .quarter,
-//        selectedBeats: [1 : .accent],
-//        beatSelection: .accent
-//    ) {
-//        didSet {
-//            objectWillChange.send()
-//        }
+    
+    let objectWillChange = ObservableObjectPublisher()
+    
+    private init () {}
+    
+//    private func getDefaultMetronomePlaylist() -> [MetronomeSettings.ID: MetronomeSettings] {
+//        return [defaultSettings.id: defaultSettings]
 //    }
-
-
-        
-    private func getDefaultMetronomePlaylist() -> [MetronomeSettings.ID: MetronomeSettings] {
-        return [defaultSettings.id: defaultSettings]
-    }
 }

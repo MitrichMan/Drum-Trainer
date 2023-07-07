@@ -9,53 +9,67 @@ import SwiftUI
 
 struct MetronomeView: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var dataManager: DataManager
     @StateObject private var viewModel = MetronomeViewModel()
-        
+    
     var body: some View {
         ZStack{
             Color(viewModel.backgroundColor)
                 .ignoresSafeArea()
             
-            VStack {
-                Spacer(minLength: 20)
+            VStack(spacing: 0) {
                 
-                BeatLightsView()
-                .padding(.bottom)
-
-                HStack {
-                    
-                    VStack(spacing: 1) {
-                        SizePickerView()
+                ZStack {
+                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                        .foregroundColor(.white)
+                    VStack(spacing: 0) {
+                        BeatLightsView()
+                        Divider()
                         
-                        RhythmPicker()
-
+                        HStack(spacing: 0) {
+                            SizePickerView()
+                            
+                            Divider()
+                                .frame(height: 100)
+                            
+                            RhythmPicker()
+                            
+                            Divider()
+                                .frame(height: 100)
+                            
+                            // Mock
+                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                                .foregroundColor(.white)
+                                .frame(width: 85, height: 50)
+                            Divider()
+                                .frame(height: 100)
+                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                                .foregroundColor(.white)
+                                .frame(width: 85, height: 50)
+                        }
                     }
-                    .padding(.leading, 20)
-                    
-                    Spacer()
-                    
-                    Text(metronome.beat.formatted())
-                        .font(.largeTitle)
-                                        
-                    Spacer(minLength: 185)
-                    
                 }
                 
+                Spacer()
+                
+                Text(metronome.beat.formatted())
+                    .font(.largeTitle)
+                
+                Spacer()
+                
                 ControlWheelView(
-                    tempo: $dataManager.defaultSettings.tempo,
+                    tempo: $metronome.defaultSettings.tempo,
                     bigCircleDiameter: viewModel.bigCircleDiameter,
                     startMetronome: metronome.buttonWasTapped
                 )
                 
-                Spacer(minLength: 50)
+                Spacer(minLength: 30)
             }
+            .padding(.top, 20)
+            .padding(.leading, 20)
+            .padding(.trailing, 20)
         }
         .onAppear {
             viewModel.metronome = metronome
-            viewModel.dataManager = dataManager
-            #warning("Next is only for work with canvas. Delete when finish work!")
-            metronome.dataManager = dataManager
         }
     }
 }
@@ -64,7 +78,6 @@ struct MetronomeView_Previews: PreviewProvider {
     static var previews: some View {
         MetronomeView()
             .environmentObject(Metronome())
-            .environmentObject(DataManager())
     }
 }
 
@@ -75,7 +88,7 @@ struct RhythmPicker: View {
     
     // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
-        Picker("Subdivision", selection: $dataManager.defaultSettings.subdivision) {
+        Picker("Subdivision", selection: $metronome.defaultSettings.subdivision) {
             
             Image("HalfNote")
                 .resizable()
@@ -99,7 +112,7 @@ struct RhythmPicker: View {
                 .tag(Subdivision.sixteenth)
         }
         .pickerStyle(.wheel)
-        .frame(width: 100, height: 50)
+        .frame(width: 85, height: 90)
         .background(.white)
         .cornerRadius(20)
     }
@@ -110,13 +123,13 @@ struct SizePickerView: View {
     @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
-        Picker("Beat", selection: $dataManager.defaultSettings.size) {
+        Picker("Beat", selection: $metronome.defaultSettings.size) {
             ForEach(Size.allCases) { size in
                 Text(String(describing: size.rawValue)).tag(size)
             }
         }
         .pickerStyle(.wheel)
-        .frame(width: 100, height: 50)
+        .frame(width: 85, height: 90)
         .background(.white)
         .cornerRadius(20)
     }

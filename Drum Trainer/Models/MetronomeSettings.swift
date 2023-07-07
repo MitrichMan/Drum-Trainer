@@ -30,19 +30,21 @@ struct MetronomeSettings: Identifiable {
 }
 
 extension MetronomeSettings {
-    static var defaultSettings = MetronomeSettings(
-        name: "DefaultAppSettings",
-        size: .four,
-        beat: 0,
-        tempo: 80,
-        subdivision: .quarter,
-        selectedBeats: [1 : .accent],
-        beatSelection: .accent
-    )
+    static func getDefaultSettings() -> MetronomeSettings {
+        MetronomeSettings(
+            name: "",
+            size: .four,
+            beat: 0,
+            tempo: 80,
+            subdivision: .quarter,
+            selectedBeats: [1: .accent],
+            beatSelection: .accent
+        )
+    }
 }
 
 
-enum Size: Int, CaseIterable, Identifiable {
+enum Size: Int, CaseIterable, Identifiable, Equatable {
     case two = 2
     case three = 3
     case four = 4

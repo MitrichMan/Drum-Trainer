@@ -6,39 +6,36 @@
 //
 
 import SwiftUI
+import Combine
 
 class BeatLightsViewModel: ObservableObject {
-//    @EnvironmentObject private var metronome: Metronome
-//    @EnvironmentObject private var dataManager: DataManager
-    
     @ObservedObject var metronome = Metronome()
-    @ObservedObject var dataManager = DataManager()
     
     // MARK: - Selection
     func setUpBeatSelection() {
-        for beat in 2...dataManager.defaultSettings.size.rawValue {
-            if dataManager.defaultSettings.selectedBeats[beat] == nil {
-                dataManager.defaultSettings.selectedBeats[beat] = .weak
+        for beat in 2...metronome.defaultSettings.size.rawValue {
+            if metronome.defaultSettings.selectedBeats[beat] == nil {
+                metronome.defaultSettings.selectedBeats[beat] = .weak
             }
         }
     }
     
     func deInitUnusedBeats() {
-        if dataManager.defaultSettings.selectedBeats.count > dataManager.defaultSettings.size.rawValue {
-            for beat in (dataManager.defaultSettings.size.rawValue + 1)...dataManager.defaultSettings.selectedBeats.count {
-                dataManager.defaultSettings.selectedBeats[beat] = nil
+        if metronome.defaultSettings.selectedBeats.count > metronome.defaultSettings.size.rawValue {
+            for beat in (metronome.defaultSettings.size.rawValue + 1)...metronome.defaultSettings.selectedBeats.count {
+                metronome.defaultSettings.selectedBeats[beat] = nil
             }
         }
     }
     
     func selectBeats(from index: Int) {
-        switch dataManager.defaultSettings.selectedBeats[index] {
+        switch metronome.defaultSettings.selectedBeats[index] {
         case .accent:
-            dataManager.defaultSettings.selectedBeats[index] = .ghost
+            metronome.defaultSettings.selectedBeats[index] = .ghost
         case .weak:
-            dataManager.defaultSettings.selectedBeats[index] = .accent
+            metronome.defaultSettings.selectedBeats[index] = .accent
         default:
-            dataManager.defaultSettings.selectedBeats[index] = .weak
+            metronome.defaultSettings.selectedBeats[index] = .weak
         }
     }
     
@@ -47,16 +44,16 @@ class BeatLightsViewModel: ObservableObject {
         let color: Color
         
         if beat == index {
-            switch dataManager.defaultSettings.selectedBeats[index] {
+            switch metronome.defaultSettings.selectedBeats[index] {
             case .accent:
                 color = .green
-                dataManager.defaultSettings.beatSelection = .accent
+                metronome.defaultSettings.beatSelection = .accent
             case .weak:
                 color = .red
-                dataManager.defaultSettings.beatSelection = .weak
+                metronome.defaultSettings.beatSelection = .weak
             default:
                 color = .yellow
-                dataManager.defaultSettings.beatSelection = .ghost
+                metronome.defaultSettings.beatSelection = .ghost
             }
         } else {
             color = Color("BackgroundColor")
@@ -66,27 +63,27 @@ class BeatLightsViewModel: ObservableObject {
     }
     
     func setUpCircleAppearance(index: Int) -> Double {
-        let diameterOfCircle = dataManager.defaultSettings.selectedBeats[index] == .ghost ? 16.0 : 40.0
+        let diameterOfCircle = metronome.defaultSettings.selectedBeats[index] == .ghost ? 16.0 : 40.0
         return diameterOfCircle
     }
     
     // MARK: - Number
-    func getNumberOfRows(size: Int) -> Int {
-        size > 4 ? 2 : 1
+    func getNumberOfRows(size: Size) -> Int {
+        size.rawValue > 4 ? 2 : 1
     }
     
-    func getNumberOfCirclesInRow(size: Int, rowIndex: Int) -> Int {
-        if size > 4 {
-            if size % 2 == 0 {
-                return size / 2
+    func getNumberOfCirclesInRow(size: Size, rowIndex: Int) -> Int {
+        if size.rawValue > 4 {
+            if size.rawValue % 2 == 0 {
+                return size.rawValue / 2
             } else {
-                return rowIndex == 1 ?  (size - 1) / 2 + 1 : (size - 1) / 2
+                return rowIndex == 1 ?  (size.rawValue - 1) / 2 + 1 : (size.rawValue - 1) / 2
             }
         }
-        return size
+        return size.rawValue
     }
     
-    func getIndexForElement(rowIndex: Int, index: Int, size: Int) -> Int {
+    func getIndexForElement(rowIndex: Int, index: Int, size: Size) -> Int {
         rowIndex == 1 ? index : index + getNumberOfCirclesInRow(size: size, rowIndex: 1)
     }
 }

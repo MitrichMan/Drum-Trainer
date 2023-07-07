@@ -9,17 +9,13 @@ import SwiftUI
 
 @main
 struct Drum_TrainerApp: App {
-    @ObservedObject var metronome = Metronome()
-    @ObservedObject var dataManager = DataManager()
+    @StateObject private var metronome = Metronome()
     
     var body: some Scene {
         WindowGroup {
             MetronomeView()
                 .environmentObject(metronome)
-                .environmentObject(dataManager)
-                .onAppear{
-                    metronome.dataManager = dataManager
-                }
+                
         }
     }
 }

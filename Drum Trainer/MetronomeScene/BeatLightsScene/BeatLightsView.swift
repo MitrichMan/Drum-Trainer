@@ -9,20 +9,18 @@ import SwiftUI
 
 struct BeatLightsView: View {
     @EnvironmentObject private var metronome: Metronome
-    @EnvironmentObject private var dataManager: DataManager
-
     @StateObject private var viewModel = BeatLightsViewModel()
         
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .frame(width: 350, height: 200)
+                .frame(height: 200)
                 .foregroundColor(.white)
             
             VStack {
                 ForEach(
                     (1...viewModel.getNumberOfRows(
-                        size: dataManager.defaultSettings.size.rawValue
+                        size: metronome.defaultSettings.size
                     )),
                     id: \.self
                 ) { rowIndex in
@@ -30,7 +28,7 @@ struct BeatLightsView: View {
                     HStack {
                         ForEach(
                             (1...viewModel.getNumberOfCirclesInRow(
-                                size: dataManager.defaultSettings.size.rawValue,
+                                size: metronome.defaultSettings.size,
                                 rowIndex: rowIndex
                             )),
                             id: \.self
@@ -38,11 +36,11 @@ struct BeatLightsView: View {
                             
                             ZStack {
                                 AccentNimbusView(
-                                    beatSelection: dataManager.defaultSettings.selectedBeats[
+                                    beatSelection: metronome.defaultSettings.selectedBeats[
                                         viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index,
-                                            size: dataManager.defaultSettings.size.rawValue
+                                            size: metronome.defaultSettings.size
                                         )
                                     ] ?? .weak,
                                     color: viewModel.playingBeatCircleColorSetUp(
@@ -50,7 +48,7 @@ struct BeatLightsView: View {
                                         index: viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index,
-                                            size: dataManager.defaultSettings.size.rawValue
+                                            size: metronome.defaultSettings.size
                                         )
                                     )
                                 )
@@ -61,14 +59,14 @@ struct BeatLightsView: View {
                                         index: viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index,
-                                            size: dataManager.defaultSettings.size.rawValue
+                                            size: metronome.defaultSettings.size
                                         )
                                     ),
                                     circleDiameter: viewModel.setUpCircleAppearance(
                                         index: viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index,
-                                            size: dataManager.defaultSettings.size.rawValue
+                                            size: metronome.defaultSettings.size
                                         )
                                     )
                                 )
@@ -78,7 +76,7 @@ struct BeatLightsView: View {
                                         from: viewModel.getIndexForElement(
                                             rowIndex: rowIndex,
                                             index: index,
-                                            size: dataManager.defaultSettings.size.rawValue
+                                            size: metronome.defaultSettings.size
                                         )
                                     )
                                 }
@@ -90,11 +88,10 @@ struct BeatLightsView: View {
         }
         .onAppear {
             viewModel.metronome = metronome
-            viewModel.dataManager = dataManager
             viewModel.setUpBeatSelection()
         }
         
-        .onChange(of: dataManager.defaultSettings.size) { _ in
+        .onChange(of: metronome.defaultSettings.size) { _ in
             viewModel.deInitUnusedBeats()
             viewModel.setUpBeatSelection()
         }
@@ -105,6 +102,5 @@ struct BeatLightsView_Previews: PreviewProvider {
     static var previews: some View {
         BeatLightsView()
         .environmentObject(Metronome())
-        .environmentObject(DataManager())
     }
 }
