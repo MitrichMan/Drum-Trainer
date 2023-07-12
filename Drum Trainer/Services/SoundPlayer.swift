@@ -12,7 +12,7 @@ class SoundPlayer {
     var player: AVAudioPlayer?
     
     func playSound(beat: BeatSelection) {
-        guard let url = NSDataAsset(name: soundChoice(beat: beat))?.data else { return }
+        guard let url = NSDataAsset(name: soundSelection(beat: beat))?.data else { return }
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -24,7 +24,7 @@ class SoundPlayer {
         }
     }
     
-    private func soundChoice(beat: BeatSelection) -> String {
+    private func soundSelection(beat: BeatSelection) -> String {
         switch beat {
         case .accent:
             return "MetronomeBeep"

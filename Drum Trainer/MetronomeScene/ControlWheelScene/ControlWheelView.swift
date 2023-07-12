@@ -26,12 +26,7 @@ struct ControlWheelView: View {
                 tempo: $tempo
             )
             
-            ControlButtonsView(
-                tempo: $tempo,
-                startMetronome: startMetronome,
-                backgroundColor: backgroundColor,
-                bigCircleDiameter: bigCircleDiameter
-            )
+            ControlButtonsView()
             
             TempoText(
                 tempo: $tempo

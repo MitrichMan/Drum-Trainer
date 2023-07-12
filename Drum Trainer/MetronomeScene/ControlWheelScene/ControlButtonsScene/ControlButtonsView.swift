@@ -7,43 +7,37 @@
 
 import SwiftUI
 
-struct ControlButtonsView: View {
-    @Binding var tempo: Double
-    
-    let startMetronome: () -> Void
-    
-    let backgroundColor: UIColor
-    let bigCircleDiameter: CGFloat
-    
+struct ControlButtonsView: View {    
+    @StateObject private var viewModel = ControlButtonsViewModel()
+    @EnvironmentObject private var dataManager: DataManager
+    @EnvironmentObject private var metronome: Metronome
+
     var body: some View {
         ControlButton(
-            buttonAction: startMetronome,
-            backgroundColor: backgroundColor,
+            buttonAction: viewModel.metronome.buttonWasTapped,
+            backgroundColor: viewModel.backgroundColor,
             name: "playpause.fill"
         )
-        .offset(y: -bigCircleDiameter / 3)
+        .offset(y: -viewModel.bigCircleDiameter / 3)
         
         ControlButton(
-            buttonAction: tempoMinus,
-            backgroundColor: backgroundColor,
+            buttonAction: viewModel.tempoMinus,
+            backgroundColor: viewModel.backgroundColor,
             name: "minus"
         )
-        .offset(x: -bigCircleDiameter / 3)
+        .offset(x: -viewModel.bigCircleDiameter / 3)
 
         ControlButton(
-            buttonAction: tempoPlus,
-            backgroundColor: backgroundColor,
+            buttonAction: viewModel.tempoPlus,
+            backgroundColor: viewModel.backgroundColor,
             name: "plus"
         )
-        .offset(x: bigCircleDiameter / 3)
-    }
-    
-    private func tempoMinus() {
-        tempo -= 1
-    }
-    
-    private func tempoPlus() {
-        tempo += 1
+        .offset(x: viewModel.bigCircleDiameter / 3)
+        
+        .onAppear {
+            viewModel.dataManager = dataManager
+            viewModel.metronome = metronome
+        }
     }
 }
 
