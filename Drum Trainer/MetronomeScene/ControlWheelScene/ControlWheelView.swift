@@ -20,9 +20,6 @@ struct ControlWheelView: View {
     var body: some View {
         
         ZStack {
-            Color(backgroundColor)
-                .ignoresSafeArea()
-            
             TempoControlWheel(
                 bigCircleDiameter: bigCircleDiameter,
                 backgroundColor: backgroundColor,
@@ -70,7 +67,7 @@ struct TempoControlWheel: View {
 
     var body: some View {
         ZStack {
-            ControlCircleView(
+            ActiveCircleView(
                 tempo: $tempo, bigCircleDiameter: bigCircleDiameter
             )
             

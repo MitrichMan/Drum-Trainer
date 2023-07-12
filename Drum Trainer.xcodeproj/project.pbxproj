@@ -12,7 +12,7 @@
 		4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */; };
 		4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */; };
 		4DBB2CB02A54508900A4F56E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CAF2A54508900A4F56E /* DataManager.swift */; };
-		4DBB2CB42A54597F00A4F56E /* ControlCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */; };
+		4DBB2CB42A54597F00A4F56E /* ActiveCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB32A54597F00A4F56E /* ActiveCircleView.swift */; };
 		4DBB2CB62A5459C600A4F56E /* ControlCircleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */; };
 		4DBB2CB82A545AD300A4F56E /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB72A545AD300A4F56E /* ControlButtonsView.swift */; };
 		4DBB2CBA2A545AFE00A4F56E /* ControlButtonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB2CB92A545AFE00A4F56E /* ControlButtonsViewModel.swift */; };
@@ -53,7 +53,7 @@
 		4DA4D71F2A5400A500210D1A /* AccentNimbusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccentNimbusView.swift; sourceTree = "<group>"; };
 		4DB6B3A42A53E92900F7E9FA /* BeatLightsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatLightsViewModel.swift; sourceTree = "<group>"; };
 		4DBB2CAF2A54508900A4F56E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCircleView.swift; sourceTree = "<group>"; };
+		4DBB2CB32A54597F00A4F56E /* ActiveCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveCircleView.swift; sourceTree = "<group>"; };
 		4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCircleViewModel.swift; sourceTree = "<group>"; };
 		4DBB2CB72A545AD300A4F56E /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
 		4DBB2CB92A545AFE00A4F56E /* ControlButtonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsViewModel.swift; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		4DBB2CBB2A545B8700A4F56E /* ControlCircleScene */ = {
 			isa = PBXGroup;
 			children = (
-				4DBB2CB32A54597F00A4F56E /* ControlCircleView.swift */,
+				4DBB2CB32A54597F00A4F56E /* ActiveCircleView.swift */,
 				4DBB2CB52A5459C600A4F56E /* ControlCircleViewModel.swift */,
 			);
 			path = ControlCircleScene;
@@ -369,7 +369,7 @@
 				4DA4D7202A5400A500210D1A /* AccentNimbusView.swift in Sources */,
 				4DB6B3A52A53E92900F7E9FA /* BeatLightsViewModel.swift in Sources */,
 				4DC30A442A27716300B34DD4 /* Drum_TrainerApp.swift in Sources */,
-				4DBB2CB42A54597F00A4F56E /* ControlCircleView.swift in Sources */,
+				4DBB2CB42A54597F00A4F56E /* ActiveCircleView.swift in Sources */,
 				4DC30A7B2A2883CD00B34DD4 /* ControlWheelView.swift in Sources */,
 				4DBB2CB62A5459C600A4F56E /* ControlCircleViewModel.swift in Sources */,
 				4DC30A792A28816800B34DD4 /* MetronomeSettings.swift in Sources */,

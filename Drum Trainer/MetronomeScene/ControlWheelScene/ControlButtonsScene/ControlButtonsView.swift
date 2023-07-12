@@ -16,37 +16,25 @@ struct ControlButtonsView: View {
     let bigCircleDiameter: CGFloat
     
     var body: some View {
-        Button(action: startMetronome) {
-            Image(systemName: "playpause.fill")
-                .font(.largeTitle)
-                .foregroundColor(Color(backgroundColor))
-                .frame(width: 70, height: 70)
-        }
+        ControlButton(
+            buttonAction: startMetronome,
+            backgroundColor: backgroundColor,
+            name: "playpause.fill"
+        )
         .offset(y: -bigCircleDiameter / 3)
         
-        //            Image(systemName: "playpause.fill")
-        //                .font(.title)
-        //                .foregroundColor(Color(backgroundColor))
-        //                .offset(y: bigCircleDiameter / 3)
-        
-        Button(action: tempoMinus) {
-            Image(systemName: "minus")
-                .font(.largeTitle)
-                .fontWeight(.heavy)
-                .foregroundColor(Color(backgroundColor))
-                .frame(width: 50, height: 50)
-        }
+        ControlButton(
+            buttonAction: tempoMinus,
+            backgroundColor: backgroundColor,
+            name: "minus"
+        )
         .offset(x: -bigCircleDiameter / 3)
-        
-        
-        Button(action: tempoPlus) {
-            Image(systemName: "plus")
-                .font(.largeTitle)
-                .fontWeight(.heavy)
-                .foregroundColor(Color(backgroundColor))
-                .frame(width: 50, height: 50)
 
-        }
+        ControlButton(
+            buttonAction: tempoPlus,
+            backgroundColor: backgroundColor,
+            name: "plus"
+        )
         .offset(x: bigCircleDiameter / 3)
     }
     
@@ -56,5 +44,22 @@ struct ControlButtonsView: View {
     
     private func tempoPlus() {
         tempo += 1
+    }
+}
+
+struct ControlButton: View {
+    let buttonAction: () -> Void
+    let backgroundColor: UIColor
+    let name: String
+    
+    var body: some View {
+        Button(action: buttonAction) {
+            Image(systemName: name)
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .foregroundColor(Color(backgroundColor))
+                .frame(width: 70, height: 70)
+
+        }
     }
 }
