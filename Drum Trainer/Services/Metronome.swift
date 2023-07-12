@@ -9,11 +9,8 @@ import Combine
 import SwiftUI
 
 class Metronome: ObservableObject {
-    
-    var dataManager = DataManager.shared
-    
-//    @Published var defaultSettings: MetronomeSettings = MetronomeSettings.getDefaultSettings()
-    
+    var dataManager = DataManager()
+        
     let objectWillChange = ObservableObjectPublisher()
     
     var beat = 0

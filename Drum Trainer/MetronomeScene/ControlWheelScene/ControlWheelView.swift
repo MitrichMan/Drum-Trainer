@@ -52,6 +52,8 @@ struct ControlWheelView_Previews: PreviewProvider {
             bigCircleDiameter: 350,
             startMetronome: plug
         )
+        .environmentObject(DataManager())
+
     }
 }
 
@@ -69,8 +71,7 @@ struct TempoControlWheel: View {
     var body: some View {
         ZStack {
             ControlCircleView(
-                bigCircleDiameter: bigCircleDiameter,
-                tempo: $tempo
+                tempo: $tempo, bigCircleDiameter: bigCircleDiameter
             )
             
             Circle()

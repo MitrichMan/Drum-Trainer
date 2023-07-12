@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MetronomeView: View {
+    
     @StateObject private var viewModel = MetronomeViewModel()
+    
     @EnvironmentObject private var metronome: Metronome
     @EnvironmentObject private var dataManager: DataManager
     
@@ -78,6 +80,10 @@ struct MetronomeView: View {
             .padding(.leading, 20)
             .padding(.trailing, 20)
         }
+        // only for preview
+        .onAppear {
+            metronome.dataManager = dataManager
+        }
     }
 }
 
@@ -85,7 +91,7 @@ struct MetronomeView_Previews: PreviewProvider {
     static var previews: some View {
         MetronomeView()
             .environmentObject(Metronome())
-            .environmentObject(DataManager.shared)
+            .environmentObject(DataManager())
 
     }
 }
@@ -93,8 +99,7 @@ struct MetronomeView_Previews: PreviewProvider {
 //    Subdivision picker for now
 struct RhythmPicker: View {
     @EnvironmentObject private var metronome: Metronome
-    
-    @State var dataManager = DataManager.shared
+    @EnvironmentObject private var dataManager: DataManager
     
     // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
@@ -130,8 +135,7 @@ struct RhythmPicker: View {
 
 struct SizePickerView: View {
     @EnvironmentObject private var metronome: Metronome
-    
-    @State var dataManager = DataManager.shared
+    @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
         Picker("Beat", selection: $dataManager.defaultSettings.size) {
