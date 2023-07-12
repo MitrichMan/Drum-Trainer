@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MetronomeView: View {
-    @EnvironmentObject private var metronome: Metronome
     @StateObject private var viewModel = MetronomeViewModel()
+    @EnvironmentObject private var metronome: Metronome
+    @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
         ZStack{
@@ -55,18 +56,18 @@ struct MetronomeView: View {
                     Text(metronome.beat.formatted())
                         .font(.largeTitle)
                     
-                    Text(metronome.defaultSettings.beat.formatted())
+                    Text(dataManager.defaultSettings.beat.formatted())
                     
                     Button("start") {
-                        metronome.defaultSettings.beat += 1
-                        print(metronome.defaultSettings.beat.formatted())
+                        dataManager.defaultSettings.beat += 1
+                        print(dataManager.defaultSettings.beat.formatted())
                     }
                 }
                 
                 Spacer()
                 
                 ControlWheelView(
-                    tempo: $metronome.defaultSettings.tempo,
+                    tempo: $dataManager.defaultSettings.tempo,
                     bigCircleDiameter: viewModel.bigCircleDiameter,
                     startMetronome: metronome.buttonWasTapped
                 )
@@ -77,9 +78,6 @@ struct MetronomeView: View {
             .padding(.leading, 20)
             .padding(.trailing, 20)
         }
-        .onAppear {
-            viewModel.metronome = metronome
-        }
     }
 }
 
@@ -87,6 +85,8 @@ struct MetronomeView_Previews: PreviewProvider {
     static var previews: some View {
         MetronomeView()
             .environmentObject(Metronome())
+            .environmentObject(DataManager.shared)
+
     }
 }
 
@@ -94,9 +94,11 @@ struct MetronomeView_Previews: PreviewProvider {
 struct RhythmPicker: View {
     @EnvironmentObject private var metronome: Metronome
     
+    @State var dataManager = DataManager.shared
+    
     // Change it when work with rhythmic patterns will be done!!!!
     var body: some View {
-        Picker("Subdivision", selection: $metronome.defaultSettings.subdivision) {
+        Picker("Subdivision", selection: $dataManager.defaultSettings.subdivision) {
             
             Image("HalfNote")
                 .resizable()
@@ -129,10 +131,12 @@ struct RhythmPicker: View {
 struct SizePickerView: View {
     @EnvironmentObject private var metronome: Metronome
     
+    @State var dataManager = DataManager.shared
+    
     var body: some View {
-        Picker("Beat", selection: $metronome.defaultSettings.size) {
+        Picker("Beat", selection: $dataManager.defaultSettings.size) {
             ForEach(Size.allCases) { size in
-                Text(String(describing: size.rawValue)).tag(size)
+                Text(String(describing: size.rawValue))
             }
         }
         .pickerStyle(.wheel)

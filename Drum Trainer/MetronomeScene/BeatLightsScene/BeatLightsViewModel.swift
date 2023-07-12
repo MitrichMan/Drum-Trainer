@@ -9,81 +9,76 @@ import SwiftUI
 import Combine
 
 class BeatLightsViewModel: ObservableObject {
-    @ObservedObject var metronome = Metronome()
+    
+    var numberOfRows = 1 {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+    
+    var numberOfCirclesInFirstRow = 4 {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+    
+    var numberOfCirclesInSecondRow = 0 {
+        didSet {
+            objectWillChange.send()
+        }
+    }
         
-    // MARK: - Selection
-    func setUpBeatSelection() {
-        for beat in 2...metronome.defaultSettings.size.rawValue {
-            if metronome.defaultSettings.selectedBeats[beat] == nil {
-                metronome.defaultSettings.selectedBeats[beat] = .weak
-            }
-        }
-    }
-    
-    func deInitUnusedBeats() {
-        if metronome.defaultSettings.selectedBeats.count > metronome.defaultSettings.size.rawValue {
-            for beat in (metronome.defaultSettings.size.rawValue + 1)...metronome.defaultSettings.selectedBeats.count {
-                metronome.defaultSettings.selectedBeats[beat] = nil
-            }
-        }
-    }
-    
-    func selectBeats(from index: Int) {
-        switch metronome.defaultSettings.selectedBeats[index] {
-        case .accent:
-            metronome.defaultSettings.selectedBeats[index] = .ghost
-        case .weak:
-            metronome.defaultSettings.selectedBeats[index] = .accent
-        default:
-            metronome.defaultSettings.selectedBeats[index] = .weak
-        }
-    }
-    
+    let objectWillChange = ObservableObjectPublisher()
+        
     // MARK: - Appearance
-    func playingBeatCircleColorSetUp(beat: Int, index: Int) -> Color {
+    func playingBeatCircleColorSetUp(beat: Int, index: Int, selectedBeats: [Int: BeatSelection]) -> Color {
         let color: Color
         
         if beat == index {
-            switch metronome.defaultSettings.selectedBeats[index] {
+            switch selectedBeats[index] {
             case .accent:
                 color = .green
-                metronome.defaultSettings.beatSelection = .accent
             case .weak:
                 color = .red
-                metronome.defaultSettings.beatSelection = .weak
             default:
                 color = .yellow
-                metronome.defaultSettings.beatSelection = .ghost
             }
         } else {
             color = Color("BackgroundColor")
         }
-        
         return color
     }
     
-    func setUpCircleAppearance(index: Int) -> Double {
-        let diameterOfCircle = metronome.defaultSettings.selectedBeats[index] == .ghost ? 16.0 : 40.0
-        return diameterOfCircle
+    func setUpCircleAppearance(index: Int, selectedBeats: [Int: BeatSelection]) -> Double {
+        selectedBeats[index] == .ghost ? 16.0 : 40.0
     }
     
     // MARK: - Number
-    func getNumberOfRows(size: Size) -> Int {
-        size.rawValue > 4 ? 2 : 1
+    func getNumberOfRows(size: Size) {
+        numberOfRows = size.rawValue > 4 ? 2 : 1
+        objectWillChange.send()
     }
     
-    func getNumberOfCirclesInRow(size: Size, rowIndex: Int) -> Int {
+    func getNumberOfCirclesInRows(size: Size) {
         if size.rawValue > 4 {
             if size.rawValue % 2 == 0 {
-                return size.rawValue / 2
+                numberOfCirclesInFirstRow = size.rawValue / 2
+                numberOfCirclesInSecondRow = size.rawValue / 2
             } else {
-                return rowIndex == 1 ?  (size.rawValue - 1) / 2 + 1 : (size.rawValue - 1) / 2
+                numberOfCirclesInFirstRow = (size.rawValue - 1) / 2 + 1
+                numberOfCirclesInSecondRow = (size.rawValue - 1) / 2
             }
+        } else {
+            numberOfCirclesInFirstRow = size.rawValue
         }
-        return size.rawValue
+        objectWillChange.send()
+    }
+ 
+    func getNumberOfCirclesInRow(rowIndex: Int) -> Int {
+        rowIndex == 1 ? numberOfCirclesInFirstRow : numberOfCirclesInSecondRow
     }
     
-    func getIndexForElement(rowIndex: Int, index: Int, size: Size) -> Int {
-        rowIndex == 1 ? index : index + getNumberOfCirclesInRow(size: size, rowIndex: 1)
+    func getIndexForElement(rowIndex: Int, index: Int) -> Int {
+        rowIndex == 1 ? index : index + numberOfCirclesInFirstRow
     }
 }

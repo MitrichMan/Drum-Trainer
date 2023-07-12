@@ -5,12 +5,18 @@
 //  Created by Dmitrii Melnikov on 04.07.2023.
 //
 
-import Foundation
+import Combine
 
-class DataManager {
-    static let shared = DataManager()
-
+class DataManager: ObservableObject {
+    @Published var defaultSettings: MetronomeSettings = MetronomeSettings.getDefaultSettings() {
+        didSet {
+            objectWillChange.send()
+        }
+    }
     
+    let objectWillChange = ObservableObjectPublisher()
+    
+    static let shared = DataManager()
     
     private init () {}
     
